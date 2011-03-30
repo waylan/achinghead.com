@@ -1,0 +1,43 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+  <meta charset="utf-8" /> 
+  <title>{{ blog.title }}{% if page.title %} &ndash; {{page.title}}{%endif %}</title> 
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="media/style.css" /> 
+  <link rel="alternate" type="application/atom+xml" title="My Weblog feed" href="atom.xml" /> 
+  <link rel="shortcut icon" href="favicon.ico" /> 
+</head> 
+ 
+<body> 
+ 
+  <header id='siteheader'> 
+ 
+    <hgroup> 
+      <h1>{{ blog.title }}</h1> 
+      <h2>{{ blog.tag_line }}</h2> 
+    </hgroup> 
+ 
+    <nav> 
+      <ul> 
+        <li><a href="index.html">home</a></li> 
+        <li><a href="archive.html">archive</a></li> 
+        <li><a href="projects.html">projects</a></li> 
+        <li><a href="about.html">about</a></li> 
+      </ul> 
+    </nav> 
+ 
+  </header> 
+
+{{ content }}
+
+  <footer> 
+ 
+    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
+ 
+  </footer> 
+ 
+</body> 
+</html> 

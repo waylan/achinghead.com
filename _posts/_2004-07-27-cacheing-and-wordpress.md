@@ -1,0 +1,9 @@
+---
+layout: post
+title: "Caching and Wordpress"
+author: Waylan Limberg
+categories: "miscellaneous "
+summary: "Just the other day I expressed some <a href='http://achinghead.com/throb/index.php?p=23' title=\"thoughts on cacheing\">thoughts on caching</a>. The jist was that I wondered how to cache a page when some of the content has to remain dynamic. Then, yesterday, <a href=\"http://achinghead.com/throb/index.php?p=24\" title=\"Firewalls: the Good, the Bad and the Ugly\">when I couldn't access Matt's site</a>, he posts Version 2.5 of the <a href=\"http://photomatt.net/2004/07/26/staticize-25/\" title=\"Staticize 2.5\">Staticize Reloaded plugin</a> for <a href='http://wordpress.org/' title=\"WordPress\">WordPress</a> which addresses these very issues. Cool! Then, <a href='http://weblogtoolscollection.com/archives/2004/07/26/staticise-analysis/' title=\"Staticise Analysis = Prepare to be Slashdotted!\">look at the results</a>. Wow! Guess I'll have to look at this for my upcoming redesign. (hint, hint)."
+---
+
+Just the other day I expressed some <a href='http://achinghead.com/throb/index.php?p=23' title="thoughts on cacheing">thoughts on caching</a>. The jist was that I wondered how to cache a page when some of the content has to remain dynamic. Then, yesterday, <a href="http://achinghead.com/throb/index.php?p=24" title="Firewalls: the Good, the Bad and the Ugly">when I couldn't access Matt's site</a>, he posts Version 2.5 of the <a href="http://photomatt.net/2004/07/26/staticize-25/" title="Staticize 2.5">Staticize Reloaded plugin</a> for <a href='http://wordpress.org/' title="WordPress">WordPress</a> which addresses these very issues. Cool! Then, <a href='http://weblogtoolscollection.com/archives/2004/07/26/staticise-analysis/' title="Staticise Analysis = Prepare to be Slashdotted!">look at the results</a>. Wow! Guess I'll have to look at this for my upcoming redesign. (hint, hint).

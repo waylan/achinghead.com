@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Sharing a Windows Internet Connection in Linux"
+author: Waylan Limberg
+categories: "network, phones"
+summary: "I get my Linux box connected to the internet through my cell phone by sharing my internet connection in Windows. Here's how:"
+---
+
+As I do not have a land-line phone, my current Internet connection at home is purely over my cell phone connection. I purchased a cable to connect my phone to the USB port and installed the drivers on my Windows laptop. After enabling Mobile-Web with Verizon (about $5 more a month), and using one of the many user-name and password combinations available around the Internet I was up and running. My connection is faster than standard dial-up and available anywhere I get signal which is most of the country. I wouldn't want to use it for big media downloads, but is works fine for general browsing and email. As the minutes I use get deducted from my calling plan, I don't spend much time using it anyway, unless, of course, I'm using my free evening and weekend minutes. 
+
+In any event, I'm not here to talk about that today. I've been using that connection for a while now, but what I needed to do today was get my linux box connected. Ideally, I'd hook it up to a cable broadband connection, but as it currently stands, I don't have one and it could be awhile before I'm hooked up. I also know that it could be a problem getting drivers to work with my phone in linux. Then I remembered that you can share a Windows Internet connection and figured I'd give it a shot. While researching the matter, the first problem I encountered was that everyone seems to use linux as the server and windows as the client. In my case the roles are reversed. After hooking up a Cat5 crossover cable between the two machines, I tried setting up a file share where I was sharing the files on the Windows box. <del datetime="2005-06-16T20:17:12+00:00">I'm not sure what I'm missing but if anyone has any insight, please let me know.</del><ins datetime="2005-06-16T20:17:12+00:00">It worked like a charm once I installed Samba properly.</ins>
+
+I did, however, get the Internet connection up with little difficulty. In Windows 2000 (XP may be a little different) I opened <strong>Start</strong> &gt; <strong>Settings</strong> &gt; <strong>Network and Dial-up Connections</strong> and right-clicked on my Verizon connection and selected <strong>Properties</strong>. After selecting the <strong>Sharing</strong> tab, I enabled shared access and made sure that On-demand dialing was enabled. That's it for Windows. Simple huh? 
+
+I'm running Ubuntu linux which comes standard with Gnome on my linux box. From the bar I selected <strong>System</strong> &gt; <strong>Administration</strong> &gt; <strong>Networking</strong>. I activated the Ethernet Connection and under Properties set the Connection to <strong>DHCP</strong>. After hitting OK I opened my browser and entered an address. The "Dialing..." dialog box appeared on my Windows box, and once I remembered to turn my phone on, I had a connection. That's all there was to it.
+ I'm posting this from said connection.

@@ -1,0 +1,15 @@
+---
+layout: post
+title: "wordpress active"
+author: Waylan Limberg
+categories: "achinghead.com"
+summary: "Well, I finally did it! I now have <a href=\"http://wordpress.org\" title=\"a state-of-the-art (so they say-we'll see) semantic personal publishing platform\">WordPress</a> running this here weblog. At the same time I made some adjustments to my markup and fine tuned the layout. No doubt, the first thing you noticed was the new color scheme. If you don't care for it, be patient, I'm still working on it."
+---
+
+Well, I finally did it! I now have <a href="http://wordpress.org" title="a state-of-the-art (so they say-we'll see) semantic personal publishing platform">WordPress</a> running this here weblog. At the same time I made some adjustments to my markup and fine tuned the layout. No doubt, the first thing you noticed was the new color scheme. If you don't care for it, be patient, I'm still working on it.
+
+Getting WordPress installed was easy as my web host automatically installed it for me (even setting up the database)  from my control panel. If I had used the default template (yuck - please, no hard feelings there <a href="http://www.mezzoblue.com" title="a css master">Dave Shea</a>) I would have been done. But , oh, no, that wasn't good enough for me. I had to create a completely new template and corresponding style sheet from scratch (Ok, actually I just used the old one I was editing manually and added a little php). Still, the WordPress defaults were not good enough. I had to create a few hacks to display things as I wanted. The cool thing is, WordPress makes that fairly painless if you know php, which I would say I do. I may make the hacks available when I find the time.
+
+Truth be told, I'm still not done. I don't like that the archives use the same file with a few variables tacked on the end (see the permalinks). WordPress does offer an option for this, using mod_rewrite to describe the url. While thats not bad, I want to display different things in the sidebar etc., so I'm not so sure that will work. I will have to play with it on my localhost first. I have no doubt I'll be able to do it, it will just be a matter of time. And then there are the other pages listed (although the links are dead ends for now) in the main menu that I need to create. I want them to use the same basic layout, but I don't want to have to rewrite the code as static pages. That means more php coding on this file; using server side includes etc. In other words, I have a lot of work left and little time to play. When will I find the time to ride my bike? 
+
+Note: The post times for all previous posts are inaccurate. I was not recording the time previously, so I have no idea when each was posted. Therefore, when I added them to my WordPress database, I could only adjust the date but left the time alone. If you are the observant type, you'll notice that I added them over the last few hours.
