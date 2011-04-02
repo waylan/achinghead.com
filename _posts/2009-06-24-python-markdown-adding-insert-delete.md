@@ -26,6 +26,7 @@ double characters are used for markup. That way, there's less chance of a single
 character needing to be escaped - both for the machine and human reader. So, the
 syntax looks like this:
 
+    :::no-highlight
     Two hyphens for --strike--.
     Two underscores for __underline__.
     Two asterisks for **bold**.
@@ -142,4 +143,4 @@ existing syntax.
 [txt2tags]: http://txt2tags.sourceforge.net/index.html
 [CREOLE]: http://www.wikicreole.org/
 [explanation]: http://www.wikicreole.org/wiki/BoldAndItalicsReasoning
-[Part 2]: http://achinghead.com/archive/87/python-markdown-changing-bold-italics/
+[Part 2]: /python-markdown-changing-bold-italics.html

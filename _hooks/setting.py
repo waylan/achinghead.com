@@ -30,7 +30,10 @@ class JSliter(markdown.treeprocessors.Treeprocessor):
                 ch = CodeHilite(code.text)
                 ch._getLang()
                 if ch.lang:
-                    code.set('class', 'language-%s' % ch.lang)
+                    if ch.lang == 'no-highlight':
+                        code.set('class', ch.lang)
+                    else:
+                        code.set('class', 'language-%s' % ch.lang)
                     code.text = '%s\n' % ch._escape(ch.src)
 
 
