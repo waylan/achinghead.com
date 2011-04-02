@@ -1,0 +1,57 @@
+Options +FollowSymLinks
+
+RewriteEngine on
+
+# Redirect www.achinghead.com --> achinghead.com
+RewriteCond %{HTTP_HOST} ^www.achinghead.com$ [NC]
+RewriteRule ^(.*)$ http://achinghead.com/$1 [R=301,L]
+
+# Redirect old urls to new ones
+# /archive/##/foo/ --> /foo.html
+RewriteRule ^archive/\d+/([^/]+)/$ /$1.html [R=301,L]
+RewriteRule ^feeds/ /atom.xml [R=301,L]
+RewriteRule ^archive/all/ /archive.html [R=301,L]
+RewriteRule ^archive/tag/([^/]+)/$ /archive.html [R=301,L]
+RewriteRule ^projects/ /projects.html [R=301,L]
+RewriteRule ^about/ /about.html [R=301,L]
+
+# Mark specific pages as Gone
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^go-bike-challenge.html - [G,L]
+RewriteRule ^testing-typo.html - [G,L]
+RewriteRule ^how-much-my-blog-worth.html - [G,L]
+RewriteRule ^im-back.html - [G,L]
+RewriteRule ^redesign-v3.html - [G,L]
+RewriteRule ^wordpress-active.html - [G,L]
+RewriteRule ^development-woes.html - [G,L]
+RewriteRule ^testing-wordpress.html - [G,L]
+RewriteRule ^sites-back.html - [G,L]
+RewriteRule ^cars-and-hydrogen-and-water-oh-my.html - [G,L]
+RewriteRule ^no-brakes.htm - [G,L]
+RewriteRule ^jesse-james-bicycles.html - [G,L]
+RewriteRule ^ff-centering-bug.html - [G,L]
+RewriteRule ^performancing-firefox-plugin.html - [G,L]
+RewriteRule ^writing-my-first-real-tutorial.html - [G,L]
+RewriteRule ^backpack-problem-log.html - [G,L]
+RewriteRule ^your-invoice-make-enclosed.html - [G,L]
+RewriteRule ^notes-on-db-backups.html - [G,L]
+RewriteRule ^cacheing-and-wordpress.html - [G,L]
+RewriteRule ^thoughts-on-cacheing.html - [G,L]
+RewriteRule ^various-tidbits.html - [G,L]
+
+# Define mime-types for fonts
+AddType application/vnd.ms-fontobject .eot
+AddType font/ttf .ttf
+AddType font/opentype .otf
+
+# Define error pages
+ErrorDocument 404 /errors/404.html
+ErrorDocument 410 /errors/410.html
+
+AddType image/vnd.microsoft.icon ico
+
+# Hide this file
+<Files ~ "^\.ht">
+    order allow,deny
+    deny from all
+</Files>
