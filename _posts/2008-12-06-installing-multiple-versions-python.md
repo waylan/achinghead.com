@@ -12,14 +12,14 @@ I had previously set up a virtual machine running [Ubuntu Server][] on [VirtualB
 
 The first step is to ensure that all dependencies are installed. Run the following once:
 
-    :::sh
+    :::bash
     sudo apt-get build-dep python2.5
 
 That will install a bunch of dev packages. Which packages get installed will likely depend of each specific system.
 
 As the remaining commands will need to be repeated for each version of python, I will list them once with X's in place of the version numbers. Be sure to replace the X's with the appropriate version numbers. The various versions and download links can be found on the Python [download][] page.
 
-    :::sh
+    :::bash
     wget http://python.org/ftp/python/X.X.X/Python-X.X.X.tgz
     tar xvfz Python-X.X.X.tgz
     cd Python-X.X.X
@@ -29,34 +29,34 @@ As the remaining commands will need to be repeated for each version of python, I
 
 In a couple versions I got some warnings after running ``make`` about missing dependencies for things I don't need or use, so I ignored them and everything worked fine. Of course, these need to be on my path to be useful so I created some links:
 
-    :::sh
+    :::bash
     sudo ln -s /opt/pythonX.X/bin/pythonX.X /usr/bin/python-X.X
 
 For Python 3.0 I also created a link for ``2to3`` so I could convert code to fit 3.0's changes:
 
-    :::sh
+    :::bash
     sudo ln -s /opt/python3.0/bin/2to3 /usr/bin/2to3
 
 The only thing left to do is install some third-party python packages into each. Despite my dislike for some aspects of [SetupTools][], it is an *easy* way to install things quickly, so I installed it on each version. First I downloaded the latest source and unzipped it:
 
-    :::sh
+    :::bash
     wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.X.tar.gz
     tar xvfz setuptools-0X.tar.gz
     cd setuptools-0.X
 
 While I only needed to do the above once, I needed to install it in each version:
 
-    :::sh
+    :::bash
     sudo python2.X setup.py install
 
 Note that, (to my knowledge) SetupTools is not yet available for Python 3.0, so I didn't even try. But is worked fine for 2.3, 2.4 and 2.6. Finally, I created links to the various versions of ``easy_install``.
 
-    :::sh
+    :::bash
     sudo ln -s /opt/python2.X/bin/easy_install-2.X /usr/bin/easy_install2.X
 
 From now on, it's easy to install a package for any version (except 3.0 which doesn't have any third-party packages to speak of yet) of Python by simply running the appropriate ``easy_install``. For example, the upcoming version 2.0 of Python-Markdown requires [ElementTree][]. While ElementTree is part of the standard library in 2.5 and 2.6, it needs to be installed manually in 2.3 and 2.4. So the following will do the trick:
 
-    :::sh
+    :::bash
     sudo easy_install2.4 celementree
     sudo easy_install2.3 celementree
 
