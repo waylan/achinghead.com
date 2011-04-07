@@ -11,6 +11,7 @@ syntax for defining `<ins>` and `<del>` tags. Now we need to alter Markdown's
 existing syntax for bold and italics. As a reminder, your new syntax should 
 look like this:
 
+    :::no-highlight
     Two hyphens for --delete--.
     Two underscores for __insert__.
     Two asterisks for **strong**.
@@ -98,6 +99,6 @@ That should do it. For completeness, the entire extension should look like this:
 In part 3 (coming soon) we'll combine all four of those patterns into one new
 pattern. Yes, that means we'll be writing our own InlinePattern class.
 
-[part 1]: http://achinghead.com/archive/86/python-markdown-adding-insert-delete/
+[part 1]: /python-markdown-adding-insert-delete.html
 [source]: http://gitorious.org/python-markdown/mainline/blobs/master/markdown/__init__.py#line276
 
