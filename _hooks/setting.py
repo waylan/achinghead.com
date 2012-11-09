@@ -10,8 +10,7 @@ Site.CONTEXT.blog = AttrDict(
     mailto = 'waylan@gmail.com',
     )
 
-Site.IGNORE += ('README', 'growl.py')
-#Site.DEPLOY_DIR = path.abspath('/home/grebmill/webapps/achinghead/')
+Site.IGNORE += ('README', 'growl.py', 'requirements.txt')
 
 """ --- Set up Markdown --- """
 
