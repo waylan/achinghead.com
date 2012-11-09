@@ -1,0 +1,98 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+  <meta charset="utf-8" /> 
+  <title>achinghead.com &ndash; Git, Interactive Rebase and Ubuntu</title> 
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="/media/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="/media/style.css" /> 
+  <link rel="stylesheet" href="/media/highlight.css">
+  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
+  <link rel="shortcut icon" href="/favicon.ico" /> 
+</head> 
+ 
+<body> 
+ 
+  <header id='siteheader'> 
+ 
+    <hgroup> 
+      <h1>achinghead.com</h1> 
+      <h2>about to explode with half-baked ideas</h2> 
+    </hgroup> 
+ 
+    <nav> 
+      <ul> 
+        <li><a href="index.html">home</a></li> 
+        <li><a href="archive.html">archive</a></li> 
+        <li><a href="projects.html">projects</a></li> 
+        <li><a href="about.html">about</a></li> 
+      </ul> 
+    </nav> 
+ 
+  </header> 
+
+
+  <article> 
+    <header> 
+      <hgroup>
+        <h1> 
+          <a href="git-interactive-rebase-and-ubuntu.html" rel="bookmark" title="link to this post">Git, Interactive Rebase and Ubuntu</a> 
+        </h1> 
+        <h2>by Waylan Limberg <time datetime="2008-12-12" pubdate>December 12, 2008</time></h2>
+      <hgroup>
+    </header> 
+ 
+<p>As mentioned <a href="http://achinghead.com/archive/83/installing-multiple-versions-python/">previously</a>, I have a Ubuntu VirtualBox VM set up for all my python development. As we use <a href="http://git.or.cz/">Git</a> for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>, I installed Git via Ubuntu/Debian's package manager with a simple <code>sudo aptitude install git</code> -- or so I thought:</p>
+<pre><code>waylan@dev:~$ git
+bash: git: command not found
+</code></pre>
+<p>Oh, right! The <a href="http://packages.ubuntu.com/gutsy/git">git package</a> has nothing to do with Git. I have to use <a href="http://packages.ubuntu.com/gutsy/git-core">git-core</a>: </p>
+<pre><code>sudo aptitude install git-core
+</code></pre>
+<p>So, now that I had Git installed, I went on my way, hacking on code and committing each step of the way. Whoops, I just committed an incomplete patch. Oh well, I'll commit the missing pieces separately, and use interactive rebase to squash the two commits. Hmm, what do I put for a commit message? Oh, who cares, it's a throw-away message anyway... And then I am horrified to discover that the version of Git I have is as 1.5.2.5 but interactive rebase wasn't added until 1.5.3. Therefore, Python-Markdown has commits like <a href="http://gitorious.org/projects/python-markdown/repos/mainline/commits/b443efad9ae25f8f8ab421907d71c2b87e3b095a">this</a> and <a href="http://gitorious.org/projects/python-markdown/repos/mainline/commits/971d605e2e1d0652b5ea161fe0c35a40d9685e5c">this</a>. Grrr.</p>
+<p>Curiously, my primary machine has a new version of Git installed. Oh, right. Apt is broken on that machine (I haven't bothered to debug it yet) and I had to manually download and install Git there. I might as well do the same on my dev VM. So, I go to the Git site, and to my delight, they host <a href="http://www.backports.org/debian/pool/main/g/git-core">deb files</a> of the most recent builds of Git.</p>
+<pre><code>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.6.5-1~bpo40+1_i386.deb
+sudo dpkg --install git-core_1.5.6.5-1~bpo40+1_i386.deb
+</code></pre>
+<p>That's better. I type <code>git rebase -i HEAD~5</code> and my editor opens with the last five commits (<code>HEAD~5</code>) listed along with some helpful instructions:</p>
+<pre><code>pick 358decd A few more tweaks to extension loading. We don't test trying to load non-existant or broken extensions often enough. This should handle things better.
+pick b443efa foo
+pick 971d605 Revert "foo"
+pick c669bf0 One more tweak to extension loading.
+pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whitespace. For example, this would allow an extension to remove/replace 'Prettify' treeprocessor with something that added more or less whitespace without adverse effects.
+
+# Rebase c1f4bc1..d6711cf onto c1f4bc1
+#
+# Commands:
+#  pick = use commit
+#  edit = use commit, but stop for amending
+#  squash = use commit, but meld into previous commit
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+# However, if you remove everything, the rebase will be aborted.
+#
+</code></pre>
+<p>The instructions are pretty self explainitory. So I edit the file like so and save it:</p>
+<pre><code>pick 358decd A few more tweaks to extension loading. We don't test trying to load non-existant or broken extensions often enough. This should handle things better.
+squash c669bf0 One more tweak to extension loading.
+pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whitespace. For example, this would allow an extension to remove/replace 'Prettify' treeprocessor with something that added more or less whitespace without adverse effects.
+</code></pre>
+<p>The rebase runs with one more stop in the editor for me to edit the commit message. After saving that, the logs are now fixed up all nice and pretty. To bad I had pushed those changes public before the rebase. Now that others have cloned the bad commits, their clones will never merge properly with the fixed one. Oh well, at least I have the tools in place to avoid doing that again.</p>
+<p>One other cool (undocumented) feature of interactive rebase is that if you reorder the commits, they will be reordered in the log as well. In the event that the rebase runs into a conflict (which could easily happen when reordering) it will pause, allow you to fix the conflict and continue with the command:</p>
+<pre><code>git rebase --continue
+</code></pre>
+<p>This is one of the reasons I really like Git. As a distributed system, I can commit locally, edit/reorder/remove/combine those commits however I like and only when I am happy with everything, push those commits to a public repo for the world to see. Yes, that means I don't push after each commit -- only after a feature is complete.</p>
+
+  </article>
+
+  <footer> 
+ 
+    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
+ 
+  </footer> 
+ 
+</body> 
+</html> 

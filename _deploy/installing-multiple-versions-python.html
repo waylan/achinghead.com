@@ -1,0 +1,94 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+  <meta charset="utf-8" /> 
+  <title>achinghead.com &ndash; Installing multiple versions of Python on Ubuntu from Source</title> 
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="/media/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="/media/style.css" /> 
+  <link rel="stylesheet" href="/media/highlight.css">
+  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
+  <link rel="shortcut icon" href="/favicon.ico" /> 
+</head> 
+ 
+<body> 
+ 
+  <header id='siteheader'> 
+ 
+    <hgroup> 
+      <h1>achinghead.com</h1> 
+      <h2>about to explode with half-baked ideas</h2> 
+    </hgroup> 
+ 
+    <nav> 
+      <ul> 
+        <li><a href="index.html">home</a></li> 
+        <li><a href="archive.html">archive</a></li> 
+        <li><a href="projects.html">projects</a></li> 
+        <li><a href="about.html">about</a></li> 
+      </ul> 
+    </nav> 
+ 
+  </header> 
+
+
+  <article> 
+    <header> 
+      <hgroup>
+        <h1> 
+          <a href="installing-multiple-versions-python.html" rel="bookmark" title="link to this post">Installing multiple versions of Python on Ubuntu from Source</a> 
+        </h1> 
+        <h2>by Waylan Limberg <time datetime="2008-12-06" pubdate>December 06, 2008</time></h2>
+      <hgroup>
+    </header> 
+ 
+<p>In my efforts to fully test <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>, I need to have all versions of <a href="http://python.org">Python</a> that are supported by Python-Markdown. This is how I did it -- mostly for my own recollection in the event that I need to do it again. Perhaps others will find it useful as well.</p>
+<p>I had previously set up a virtual machine running <a href="http://www.ubuntu.com/products/WhatIsUbuntu/serveredition">Ubuntu Server</a> on <a href="http://www.virtualbox.org/">VirtualBox</a>. By default, I had Python2.5 installed and working fine. Now, I realize that I could have simply done <code>apt-get python2.4</code> and been done, but I wanted a few more versions. Particularly, Python 2.6 and Python 3.0, which are not yet available through Ubuntu/Debian's standard package manager. There are ways to make it work, but I decided a simple install from source into <code>/opt</code> was more strait forward. As I understand it, <code>/opt</code> is where one would install <em>optional</em> packages. Additionally, by installing from source with the changed location, each python version would be completely contained within a directory within <code>/opt</code>. If I ever want to remove a version, all I need to do is delete that directory and any associated links.</p>
+<p>The first step is to ensure that all dependencies are installed. Run the following once:</p>
+<pre><code class="language-bash">sudo apt-get build-dep python2.5
+</code></pre>
+<p>That will install a bunch of dev packages. Which packages get installed will likely depend of each specific system.</p>
+<p>As the remaining commands will need to be repeated for each version of python, I will list them once with X's in place of the version numbers. Be sure to replace the X's with the appropriate version numbers. The various versions and download links can be found on the Python <a href="http://python.org/download/">download</a> page.</p>
+<pre><code class="language-bash">wget http://python.org/ftp/python/X.X.X/Python-X.X.X.tgz
+tar xvfz Python-X.X.X.tgz
+cd Python-X.X.X
+./configure --prefix=/opt/pythonX.X
+make
+sudo make install
+</code></pre>
+<p>In a couple versions I got some warnings after running <code>make</code> about missing dependencies for things I don't need or use, so I ignored them and everything worked fine. Of course, these need to be on my path to be useful so I created some links:</p>
+<pre><code class="language-bash">sudo ln -s /opt/pythonX.X/bin/pythonX.X /usr/bin/python-X.X
+</code></pre>
+<p>For Python 3.0 I also created a link for <code>2to3</code> so I could convert code to fit 3.0's changes:</p>
+<pre><code class="language-bash">sudo ln -s /opt/python3.0/bin/2to3 /usr/bin/2to3
+</code></pre>
+<p>The only thing left to do is install some third-party python packages into each. Despite my dislike for some aspects of <a href="http://pypi.python.org/pypi/setuptools/">SetupTools</a>, it is an <em>easy</em> way to install things quickly, so I installed it on each version. First I downloaded the latest source and unzipped it:</p>
+<pre><code class="language-bash">wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.X.tar.gz
+tar xvfz setuptools-0X.tar.gz
+cd setuptools-0.X
+</code></pre>
+<p>While I only needed to do the above once, I needed to install it in each version:</p>
+<pre><code class="language-bash">sudo python2.X setup.py install
+</code></pre>
+<p>Note that, (to my knowledge) SetupTools is not yet available for Python 3.0, so I didn't even try. But is worked fine for 2.3, 2.4 and 2.6. Finally, I created links to the various versions of <code>easy_install</code>.</p>
+<pre><code class="language-bash">sudo ln -s /opt/python2.X/bin/easy_install-2.X /usr/bin/easy_install2.X
+</code></pre>
+<p>From now on, it's easy to install a package for any version (except 3.0 which doesn't have any third-party packages to speak of yet) of Python by simply running the appropriate <code>easy_install</code>. For example, the upcoming version 2.0 of Python-Markdown requires <a href="http://pypi.python.org/pypi/cElementTree">ElementTree</a>. While ElementTree is part of the standard library in 2.5 and 2.6, it needs to be installed manually in 2.3 and 2.4. So the following will do the trick:</p>
+<pre><code class="language-bash">sudo easy_install2.4 celementree
+sudo easy_install2.3 celementree
+</code></pre>
+<p>After doing the same for a few other packages (such as <a href="http://pypi.python.org/pypi/Pygments/1.0">Pygments</a> for the <a href="http://www.freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a> extension), I had a everything I needed. And to think it was rather painless.</p>
+
+  </article>
+
+  <footer> 
+ 
+    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
+ 
+  </footer> 
+ 
+</body> 
+</html> 

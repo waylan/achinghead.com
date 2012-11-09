@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+  <meta charset="utf-8" /> 
+  <title>achinghead.com &ndash; Announcing the Meta-Data Extension for Python-Markdown </title> 
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="/media/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="/media/style.css" /> 
+  <link rel="stylesheet" href="/media/highlight.css">
+  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
+  <link rel="shortcut icon" href="/favicon.ico" /> 
+</head> 
+ 
+<body> 
+ 
+  <header id='siteheader'> 
+ 
+    <hgroup> 
+      <h1>achinghead.com</h1> 
+      <h2>about to explode with half-baked ideas</h2> 
+    </hgroup> 
+ 
+    <nav> 
+      <ul> 
+        <li><a href="index.html">home</a></li> 
+        <li><a href="archive.html">archive</a></li> 
+        <li><a href="projects.html">projects</a></li> 
+        <li><a href="about.html">about</a></li> 
+      </ul> 
+    </nav> 
+ 
+  </header> 
+
+
+  <article> 
+    <header> 
+      <hgroup>
+        <h1> 
+          <a href="announcing-meta-data-extension-python-markdown.html" rel="bookmark" title="link to this post">Announcing the Meta-Data Extension for Python-Markdown </a> 
+        </h1> 
+        <h2>by Waylan Limberg <time datetime="2007-10-03" pubdate>October 03, 2007</time></h2>
+      <hgroup>
+    </header> 
+ 
+<p>I'm proud to announce the <a href="http://achinghead.com/markdown/meta-data/">Meta-Data Extension</a> for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>.</p>
+<p>I've <a href="http://achinghead.com/archive/67/adding-wikilinks-to-markdown-in-python/">mentioned</a> in the past my desire to build some sort of paging (wiki-like) system using Markdown. With a database, that's pretty easy, but for a simple file based system, there needs to be meta-data for each file. Information like 'Title', 'Summary', 'Author', 'Date', etc. <a href="http://fletcherpenney.net/MultiMarkdown">MultiMarkdown</a> offers just such a solution with its <a href="http://fletcherpenney.net/MultiMarkdown_Syntax_Guide#metadata">Meta-Data</a> feature. Of course, MultiMarkdown is in perl, so I'd have to build my own in python.</p>
+<p>It turns out that it's not to hard. I had ironed out the wrinkles of pre-processors with my <a href="http://achinghead.com/markdown/abbr/">abbreviation</a> extension, so I whipped up a solution in a few hours time. It probably would have been even less, but I had numerous interruptions. In any event, the extension simply extracts the data from the document and makes it available for use by other code. Perhaps someday I'll write an app that passes such data to a templating system.</p>
+<p>Until then, it is very handy for configuring settings for various other extensions on a per document basis. Therefore, I have updated both the <a href="http://achinghead.com/markdown/abbr/">abbreviation</a> and <a href="http://achinghead.com/markdown/wikilink/">wikilink</a> extensions to support the Meta-Data Extension. Read the <a href="http://achinghead.com/markdown/meta-data/">docs</a> for all the details, or view the <a href="https://code.achinghead.com/browser/mdx/meta/trunk/mdx_meta.py">code</a> (<a href="https://code.achinghead.com/browser/mdx/meta/trunk/mdx_meta.py?format=raw">raw</a>).</p>
+
+  </article>
+
+  <footer> 
+ 
+    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
+ 
+  </footer> 
+ 
+</body> 
+</html> 
