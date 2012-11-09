@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+  <meta charset="utf-8" /> 
+  <title>achinghead.com &ndash; Announcing Django-SpamBayes</title> 
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="/media/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="/media/style.css" /> 
+  <link rel="stylesheet" href="/media/highlight.css">
+  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
+  <link rel="shortcut icon" href="/favicon.ico" /> 
+</head> 
+ 
+<body> 
+ 
+  <header id='siteheader'> 
+ 
+    <hgroup> 
+      <h1>achinghead.com</h1> 
+      <h2>about to explode with half-baked ideas</h2> 
+    </hgroup> 
+ 
+    <nav> 
+      <ul> 
+        <li><a href="index.html">home</a></li> 
+        <li><a href="archive.html">archive</a></li> 
+        <li><a href="projects.html">projects</a></li> 
+        <li><a href="about.html">about</a></li> 
+      </ul> 
+    </nav> 
+ 
+  </header> 
+
+
+  <article> 
+    <header> 
+      <hgroup>
+        <h1> 
+          <a href="announcing-django-spambayes.html" rel="bookmark" title="link to this post">Announcing Django-SpamBayes</a> 
+        </h1> 
+        <h2>by Waylan Limberg <time datetime="2008-09-29" pubdate>September 29, 2008</time></h2>
+      <hgroup>
+    </header> 
+ 
+<p>As many of you may know, there are various methods out there for blocking spam in comments, wiki pages, contact forms and other such publicly submitted data. One of the more popular is <a href="http://akismet.com/">Akismet</a>. Another is the <a href="http://www.davidcramer.net/code/293/dealing-with-automated-form-submission-spam.html">"honey-pot"</a> method. They both certainly have their place, but they both have their shortcomings as well. </p>
+<p>For example. While the "honey-pot" seems to do it's job of blocking dumb spam-bots, what about spam from real live humans? The same applies to CAPTCHAs. Besides, it's only a matter of time before someone writes a bot that works around a widely distributed honey-pot, like the one found in Django's new <a href="http://docs.djangoproject.com/en/dev/ref/contrib/comments/">contrib.comments</a> app.</p>
+<p>And then there's Akismet's problems. As <a href="http://bynotes.com/fiam/">Alberto G.</a> <a href="http://fi.am/entry/preventing-spam/">points out</a>:</p>
+<blockquote>
+<p>I don't like Akismet because it's too simple. It only tells you if they think the comment is spam, so the best you can do is skip writing comments to the database. It would be nice if it returned a probability, so you could act accordingly.</p>
+</blockquote>
+<p>I couldn't agree more. Interestingly, that's exactly what an <a href="http://www.paulgraham.com/better.html">e-mail statistical anti-spam filter</a> does. It just so happens that the <em>best</em> statistical anti-spam filter (IMO) happens to be written in pure Python. Meet <a href="http://spambayes.sourceforge.net/">SpamBayes</a>. There shouldn't be any reason why I can't tap into that from within my <a href="http://djangoproject.com/">Django</a> projects. It turns out I was right.</p>
+<p>Now, I realize many people think of SpamBayes as an Outlook plugin. While there is such a thing, it's core is the Python <code>spambayes</code> package which is available as opensource Python code under a MIT license. Cool! Additionally, the core devs have contemplated that the filter could be used in any number of setups and have made it easy to add your own backends and/or wrap SpamBayes within your own APIs. Unfortunately, there's little documentation in this regard, but the source code is well commented and easy to follow.</p>
+<p>With little effort, I was able to create a storage backend for SpamBayes that wrapped a Django model. Once I had that, I could access the SpamBayes API from within any Django App. Thus, <a href="http://code.google.com/p/django-spambayes/">Django-SpamBayes</a> was born. Django-SpamBayes is a collection of utility applications for Django that utilize SpamBayes for spam filtering. Currently, two applications are available: <a href="http://code.google.com/p/django-spambayes/source/browse/trunk/docs/djangobayes.txt">DjangoBayes</a>, which wraps the Django model and provides the SpamBayes API; and <a href="http://code.google.com/p/django-spambayes/source/browse/trunk/docs/commentbayes.txt">CommentBayes</a>, which is an add-on to Django's <a href="http://docs.djangoproject.com/en/dev/ref/contrib/comments/">contrib.comments</a> application and provides filtering and moderation of comments through signals.</p>
+<p>Unfortunately, the moderation features of contrib.comments is undocumented, but it you point your browser at <code>http://yourdomain.com/comments/moderate/</code> you'll get a nice admin-looking moderation interface. Perhaps in the future I'll get it integrated into the admin itself.</p>
+<p>Until then, check out the <a href="http://code.google.com/p/django-spambayes/">project page</a> or get it from <a href="http://pypi.python.org/pypi/django-spambayes/">PyPI</a>.</p>
+<p><strong>Note:</strong> This blog is running on a <em>very old</em> version of Django and for that reason, is not yet using Django-Spambayes for comment moderation. Hopefully someday... At least there's a simple <a href="http://code.google.com/p/django-spambayes/source/browse/#svn/trunk/sb_demo">demo app</a> in the Subversion repo.</p>
+
+  </article>
+
+  <footer> 
+ 
+    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
+ 
+  </footer> 
+ 
+</body> 
+</html> 

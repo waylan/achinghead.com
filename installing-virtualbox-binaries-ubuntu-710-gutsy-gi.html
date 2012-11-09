@@ -1,0 +1,96 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+ 
+<head> 
+  <meta charset="utf-8" /> 
+  <title>achinghead.com &ndash; Installing VirtualBox Binaries on a Ubuntu 7.10 (Gutsy Gibbon) Host</title> 
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="/media/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="/media/style.css" /> 
+  <link rel="stylesheet" href="/media/highlight.css">
+  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
+  <link rel="shortcut icon" href="/favicon.ico" /> 
+</head> 
+ 
+<body> 
+ 
+  <header id='siteheader'> 
+ 
+    <hgroup> 
+      <h1>achinghead.com</h1> 
+      <h2>about to explode with half-baked ideas</h2> 
+    </hgroup> 
+ 
+    <nav> 
+      <ul> 
+        <li><a href="index.html">home</a></li> 
+        <li><a href="archive.html">archive</a></li> 
+        <li><a href="projects.html">projects</a></li> 
+        <li><a href="about.html">about</a></li> 
+      </ul> 
+    </nav> 
+ 
+  </header> 
+
+
+  <article> 
+    <header> 
+      <hgroup>
+        <h1> 
+          <a href="installing-virtualbox-binaries-ubuntu-710-gutsy-gi.html" rel="bookmark" title="link to this post">Installing VirtualBox Binaries on a Ubuntu 7.10 (Gutsy Gibbon) Host</a> 
+        </h1> 
+        <h2>by Waylan Limberg <time datetime="2008-01-30" pubdate>January 30, 2008</time></h2>
+      <hgroup>
+    </header> 
+ 
+<p>I actually installed <a href="http://www.virtualbox.org/">VirtualBox</a> on Xubuntu 7.10, but everything except the
+window manager should be the same, so this should work fine for Ubuntu users as well. There is an open source edition of VirtualBox, but the closed binary offers USB support, and was actually very easy to install. Any instructions I found for older versions of Ubuntu required all sorts of manual steps that were all automated for me.</p>
+<p>First install some prerequisites (I simply copied these from <a href="http://www.howtoforge.com/virtualbox_ubuntu">elsewhere</a>.
+They may not all be necessary, so YMMV):</p>
+<pre><code>$ sudo aptitude install bcc iasl xsltproc xalan libxalan110-dev uuid-dev zlib1g-dev libidl-dev libsdl1.2-dev libxcursor-dev libqt3-headers libqt3-mt-dev libasound2-dev libstdc++5 linux-headers-`uname -r` build-essential
+</code></pre>
+<p>Then check the <a href="http://www.virtualbox.org/wiki/Downloads">VirtualBox download page</a> for the url to add to your
+<code>/etc/apt/sources.list</code>. I added the following lines to the end of that file:</p>
+<pre><code># Virtualbox Binaries under the PUEL licence
+deb http://www.virtualbox.org/debian gutsy non-free
+</code></pre>
+<p>After saving that file, download and add the innotek public key for apt-secure:</p>
+<pre><code>$ wget -q http://www.virtualbox.org/debian/innotek.asc -O- | sudo apt-key add -
+</code></pre>
+<p>Now update your sources:</p>
+<pre><code>$ sudo aptitude update
+</code></pre>
+<p>Once that finishes, your ready to install VirtualBox:</p>
+<pre><code>$ sudo aptitude install virtualbox
+</code></pre>
+<p>That's it! Well, almost. After all, we're using the binary distribution for 
+USB support. To add USB support, as per <a href="http://buranen.info/?p=187">these instructions</a>, 
+you'll need to edit <code>/etc/init.d/mountdevsubfs.sh</code> and uncomment 
+lines 42 through 45:</p>
+<pre><code>#
+# Magic to make /proc/bus/usb work
+#
+mkdir -p /dev/bus/usb/.usbfs
+domount usbfs "" /dev/bus/usb/.usbfs -obusmode=0700,devmode=0600,listmode=0644
+ln -s .usbfs/devices /dev/bus/usb/devices
+mount --rbind /dev/bus/usb /proc/bus/usb
+</code></pre>
+<p>Then run the script:</p>
+<pre><code>$ sudo /etc/init.d/mountdevsubfs.sh start
+</code></pre>
+<p>Assuming you had no problems, VirtualBox should be in your menu and
+ready to use. The first time you launch, it will ask you to register. Then your
+ready to start adding virtual machines.</p>
+
+  </article>
+
+  <footer> 
+ 
+    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
+ 
+  </footer> 
+ 
+</body> 
+</html> 
