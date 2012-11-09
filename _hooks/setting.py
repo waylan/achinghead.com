@@ -33,7 +33,7 @@ class JSliter(markdown.treeprocessors.Treeprocessor):
                         code.set('class', ch.lang)
                     else:
                         code.set('class', 'language-%s' % ch.lang)
-                    code.text = '%s\n' % ch._escape(ch.src)
+                    code.text = '%s\n' % ch.src
 
 
 class JSliterExt(markdown.Extension):
