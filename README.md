@@ -1,3 +1,9 @@
+This is the source for my blog: [achinghead.com](http://achinghead.com)
+
+My blog is a statically generated site which uses 
+[growl](https://github.com/xfire/growl) to generate the
+html from markdown source files. The growl readme follows below.
+
 growl - python based, easy extendable, blog aware, static site generator
 ========================================================================
 
