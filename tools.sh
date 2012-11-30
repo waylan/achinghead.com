@@ -36,7 +36,6 @@ sub_setupenv(){
 
 sub_deploy(){
     # Deploy changes/additions to gh-pages branch
-    echo "Running deploy..."
     git subtree split --branch gh-pages --prefix _deploy/
     exit $?
 }
