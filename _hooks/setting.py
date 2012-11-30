@@ -10,7 +10,7 @@ Site.CONTEXT.blog = AttrDict(
     mailto = 'waylan@gmail.com',
     )
 
-Site.IGNORE += ('README', 'growl.py', 'requirements.txt')
+Site.IGNORE += ('README.md', 'growl.py', 'requirements.txt')
 
 """ --- Set up Markdown --- """
 
