@@ -6,6 +6,7 @@ sub_help(){
     echo "Usage: $ProgName <subcommand> [options]\n"
     echo "Subcommands:"
     echo "    deploy   Deploy changes to gh-pages branch"
+    echo "    new      Create a new post"
     echo "    setupenv Setup working environment"
     echo ""
     #echo "For help with each subcommand run:"
@@ -38,6 +39,31 @@ sub_deploy(){
     # Deploy changes/additions to gh-pages branch
     git subtree split --branch gh-pages --prefix _deploy/
     exit $?
+}
+
+sub_new(){
+    # Create new post from template
+    if [ $1 ]; then
+        # Use the env name provided in arg 1
+        FileName=$1
+    else
+        # No env name provided, use default
+        FileName="new"
+    fi
+    Date=$(date "+%Y-%m-%d")
+    PPath="_posts/$Date-$FileName.md"
+    echo "Creating new post at '$PPath'..."
+    cat > $PPath << EOF
+---
+layout: post
+title: ""
+author: Waylan Limberg
+categories: ""
+summary: "Enter summary here..."
+---
+
+Enter body here...
+EOF
 }
 
 # Parse args and call subcommand
