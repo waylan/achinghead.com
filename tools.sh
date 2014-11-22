@@ -6,8 +6,10 @@ sub_help(){
     echo "Usage: $ProgName <subcommand> [options]\n"
     echo "Subcommands:"
     echo "    deploy   Deploy changes to gh-pages branch"
-    echo "    new      Create a new post"
+    echo "    generate Generate site with changes made"
+    echo "    new      Create a new empty post"
     echo "    setupenv Setup working environment"
+    echo "    serve    Serve site locally for testing"
     echo ""
     #echo "For help with each subcommand run:"
     #echo "$ProgName <subcommand> -h|--help"
@@ -37,18 +39,42 @@ sub_setupenv(){
 
 sub_deploy(){
     # Deploy changes/additions to gh-pages branch
-    git subtree split --branch gh-pages --prefix _deploy/
-    exit $?
+    while true; do
+        read -p "Have all changes been commited to both _posts and _deploy? (yes/no): " yn
+        case $yn in
+            [Yy]* )
+                git subtree split --branch gh-pages --prefix _deploy/
+                exit $?
+                ;;
+            [Nn]* )
+                echo "Please commit your changes first."
+                exit
+                ;;
+            * )
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done
+}
+
+sub_generate(){
+    # Generate site with changes made.
+    ./growl.py .
+}
+
+sub_serve(){
+    # Serve site locally for testing and open browser
+    ./growl.py --serve 8080 _deploy #& sleep 5 && gnome-open "http://localhost:8080"
 }
 
 sub_new(){
     # Create new post from template
     if [ $1 ]; then
-        # Use the env name provided in arg 1
+        # Use the file name provided in arg 1
         FileName=$1
     else
-        # No env name provided, use default
-        FileName="new"
+        # No file name provided, prompt user
+        read -p "Please provide a file name: " FileName
     fi
     Date=$(date "+%Y-%m-%d")
     PPath="_posts/$Date-$FileName.md"
