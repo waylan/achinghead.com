@@ -346,7 +346,7 @@ class Site(Config):
             TRANSFORM are transformed via the Page class. all other
             files are simple copied.
         """
-
+        print "BASE_DIR", self.BASE_DIR
         for root, dirs, files in os.walk(self.BASE_DIR):
             base = root.replace(self.BASE_DIR, '')
             base = base.lstrip(os.path.sep)

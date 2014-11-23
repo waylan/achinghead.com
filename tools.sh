@@ -64,7 +64,8 @@ sub_generate(){
 
 sub_serve(){
     # Serve site locally for testing and open browser
-    ./growl.py --serve 8080 _deploy #& sleep 5 && gnome-open "http://localhost:8080"
+    ./growl.py --serve=8080 _deploy
+    #& sleep 5 && gnome-open "http://localhost:8080"
 }
 
 sub_new(){
