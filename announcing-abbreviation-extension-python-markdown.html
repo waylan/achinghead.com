@@ -1,64 +1,258 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com &ndash; Announcing the Abbreviation Extension for Python-Markdown </title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Announcing the Abbreviation Extension for Python-Markdown - achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="announcing-abbreviation-extension-python-markdown.html" rel="bookmark" title="link to this post">Announcing the Abbreviation Extension for Python-Markdown </a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2007-08-22" pubdate>August 22, 2007</time></h2>
-      <hgroup>
-    </header> 
- 
-<p>I'm proud to announce the <a href="http://achinghead.com/markdown/abbr/">Abbreviation Extension</a> for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>.</p>
-<p>Some time ago, <a href="http://www.kulleen.org/blog/">Seemant Kulleen</a> sent me an email asking for help. Apparently he was trying to adapt the code in my <a href="http://achinghead.com/markdown/wikilink/">wikilink</a> extension to write an abbreviation/acronym extension for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>. At the time I was way to busy and didn't even read over his code. Although, I believe I did send a short reply. I'm not that rude.</p>
+
+<link rel="canonical" href="http://achinghead.com/announcing-abbreviation-extension-python-markdown.html">
+
+        <meta name="author" content="Waylan Limberg" />
+        <meta name="keywords" content="markdown,python" />
+        <meta name="description" content="I’ve just released my first try at an Abbreviation Extension for Python-Markdown. Here’s how it came about." />
+
+    <!-- Enable latex plugin -->
+
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://achinghead.com/announcing-abbreviation-extension-python-markdown.html"
+                       rel="bookmark"
+                       title="Permalink to Announcing the Abbreviation Extension for Python-Markdown">
+                        Announcing the Abbreviation Extension for Python-Markdown
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2007-08-22T00:00:00-04:00"> August 22, 2007</time>
+    </span>
+
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://achinghead.com/tag/markdown.html">markdown</a>
+        /
+	<a href="http://achinghead.com/tag/python.html">python</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I&rsquo;m proud to announce the <a href="http://achinghead.com/markdown/abbr/">Abbreviation Extension</a> for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>.</p>
+<p>Some time ago, <a href="http://www.kulleen.org/blog/">Seemant Kulleen</a> sent me an email asking for help. Apparently he was trying to adapt the code in my <a href="http://achinghead.com/markdown/wikilink/">wikilink</a> extension to write an abbreviation/acronym extension for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>. At the time I was way to busy and didn&rsquo;t even read over his code. Although, I believe I did send a short reply. I&rsquo;m not that rude.</p>
 <p>After some time had passed, I noticed Seemant had <a href="http://www.kulleen.org/seemant/blog/2007/jun/05/building-my-django-weblog-part-65/">posted</a> his non-working code to his blog and expressed his frustrations. As I noted in my comment to that post, I  was able to get his code working with only a few minor adjustments. After some private emailing back and forth, Seemant indicated that  the code was mine to do with as I pleased. It looked something like <a href="https://code.achinghead.com/browser/mdx/abbr/trunk/mdx_acronyms.py?rev=47">this</a>. </p>
-<p>But, before I released it, I checked the syntax to see if Seemant had followed the previously established syntax in <a href="http://www.michelf.com/projects/php-markdown/extra/#abbr">PHP Markdown Extra</a>. He hadn't. We'll give him the benefit of the doubt and assume he wasn't aware a syntax had already been established. Regardless, I set the code aside and forgot about it.</p>
-<p>Then, the other week I was going through some of my working files and deleting old dead stuff, or at least archiving it out of the way, and stumbled on that code. It occurred to me that I could use the <code>Pattern</code> class we already have and pass it a different pattern for each abbreviation defined by reference. True, this would add another instance of the class for each abbreviation, but, given the fact that the extension hasn't existed for some time, it can be assumed that most documents would contain very few abbreviation definitions. So, why not? After fighting with the preprocessor bit, I have <a href="https://code.achinghead.com/browser/mdx/abbr/trunk/mdx_abbr.py">working code</a>. Perhaps it's not the best approach, but it works.</p>
+<p>But, before I released it, I checked the syntax to see if Seemant had followed the previously established syntax in <a href="http://www.michelf.com/projects/php-markdown/extra/#abbr">PHP Markdown Extra</a>. He hadn&rsquo;t. We&rsquo;ll give him the benefit of the doubt and assume he wasn&rsquo;t aware a syntax had already been established. Regardless, I set the code aside and forgot about it.</p>
+<p>Then, the other week I was going through some of my working files and deleting old dead stuff, or at least archiving it out of the way, and stumbled on that code. It occurred to me that I could use the <code>Pattern</code> class we already have and pass it a different pattern for each abbreviation defined by reference. True, this would add another instance of the class for each abbreviation, but, given the fact that the extension hasn&rsquo;t existed for some time, it can be assumed that most documents would contain very few abbreviation definitions. So, why not? After fighting with the preprocessor bit, I have <a href="https://code.achinghead.com/browser/mdx/abbr/trunk/mdx_abbr.py">working code</a>. Perhaps it&rsquo;s not the best approach, but it works.</p>
 <p>My future plans for the extension include the ability to define a default set of abbreviations which will automatically be applied to any markdown text, even if they are not defined within the document itself. Of course, this should be turned off by default, but a simple switch is much quicker and easier that copying the same abbreviations from document to document. I anticipate offering the ability to define them in code (perhaps as a python dict) or as a file (default location being the same as the source file). I suspect my approach to the code will need to change for this to work effectively. I have a few ideas, but any suggestions in this regard are welcome.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
-  </article>
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>

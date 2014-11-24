@@ -1,255 +1,438 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com</title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 
+<link rel="canonical" href="http://achinghead.com">
+        <meta name="author" content="Waylan Limberg" />
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="syntax-highlighting-web.html" rel="bookmark" title="link to this post">Syntax Highlighting on the Web</a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2010-01-30" pubdate>January 30, 2010</time></h2>
-      <hgroup>
-    </header> 
- 
-<p>Years ago I starting using <a href="http://daringfireball.net/projects/markdown/">Markdown</a> to markup text on this site. And
-as is often the case today, I would include various code snippets in my posts. I
-wanted those snippets to be highlighted like I saw on others sites (mostly
-<a href="http://trac.edgewall.org/">Trac</a> instances at the time) and whatever text editor I may have been using.
-As I soon learned, this is a <a href="http://web.archive.org/web/20030407072903/http://www.paranoidfish.org/notes/2003/03/17/1845">problem</a> that many people have had various
-levels of success with for some time.</p>
-<h3>The Background</h3>
-<p>Of course, Trac was written in <a href="http://python.org">Python</a> and I like working with Python so I
-thought I'd dig in and see if I could borrow from their code. It is a open
-source project after all. Well, after a few false starts trying to piece
-together their code, I finally came across something (not in the code itself)
-that told me they were using a third part package which name escapes me now. The
-package had horrible documentation and a little searching confirmed that most
-people had as little success getting it to work as I did. I believe Trac has
-since abandoned that package for a newer one which had not yet been released
-when this was all going on.</p>
-<p>This lack of a good syntax highlighter for Python sent me on a search through
-various possible solutions. In the course of that search, I learned a lot and
-much of my opinions discussed below are drawn from that experience. I should
-also note that the second <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a> extension I ever released <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>
-was the <a href="http://www.freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a> extension. In it's earliest form it called a command
-line script which is available on most any Linux distributions and extracted and
-slightly modified a snippet of html from the returned result do be included in a
-Markdown document. It worked, but each snippet in a blog post would generate
-another call to an external process and slow rendering down that much more.</p>
-<p>I looked at other solutions in various other languages and almost switched back
-to PHP for some of the nice libraries offered in that language (i.e.:
-<a href="http://qbnz.com/highlighter/index.php">GeSHi</a>). I also looked at Ruby, but it was brand new at the time and didn't
-have much in the way of third party libraries.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup> I also found an interesting
-JavaScript project called dp.SyntaxHighlighter. It had a few quirks, so I
-wasn't sold on it, but I did see it's value so I built my extension with a
-setting to either use the command line script or to spit out the wonky html
-necessary for the JavaScript library to work (I believe it required a specially
-classed or otherwise labeled textarea). Then, almost immediately after I
-released my first version of the Python-Markdown extension, I came across the
-newly released <a href="http://pygments.org/">Pygments</a> library. I almost immediately added Pygments as a
-third highlighting option and soon thereafter abandoned the others, leaving
-Pygments as the sole highlighting library. A short time later, I was asked to
-join the Python-Markdown project and didn't spend much time on syntax
-highlighting for quite a while.</p>
-<p>Before finding Pygments, I looked at starting my own library among other
-things. At the time a syntax parser was a <del>little</del> <ins>lot</ins> over
-my head, but I did find many examples that highlighted Python code. I even got
-my own variation working with little trouble. If I recall correctly, it was the
-first backend I built for my extension. However, I abandoned it before public 
-release as it is one thing to get Python to tokenize Python code<sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">3</a></sup>, but quite
-another to get it to tokenize anything else. At the time I was writing more
-about HTML/CSS than about Python, so this was a non-option.</p>
-<h3>Numbering Lines</h3>
-<p>Another issue besides tokenizing the code into its various parts (keywords,
-variables, integers, strings, comments, etc.), is line numbering. Some may argue
-that this is an unnecessary feature, but try reading a tutorial as a beginner
-about how to understand some snippet of code, and if the author doesn't have an
-easy way to indicate which line in the code he's talking about, you could easily
-get lost. Besides, it makes it easy for commenters to point to the exact error
-they found in your code (Hey, it's not my fault you didn't test the code you're
-writing about).</p>
-<p>Even today it's not uncommon to find lines of code broken up into table rows.
-One row per line of code, with two columns, the first being the line number and
-the second containing the actual code. With proper styling it looks nice, but
-now try to select the code to copy and past into your editor. Oops, you got the
-line numbers as well. Now you have to go back and delete the line number, the
-punctuation following it (usually a period) and any white space added in without
-messing up indentation and the like. The same problem presents itself with a
-standard ordered list. Fortunately, that was solved a long time ago by
-<a href="http://web.archive.org/web/20021006003116/webweaver.org/dan/css/corners/with_borders.html">Dan Loda</a>, <a href="http://web.archive.org/web/20021021220639/http://development.incutio.com/simon/numbered-code-experiment.html">Simon Willison</a> (both via the Way Back Machine), and
-<a href="http://www.1976design.com/blog/archive/2004/07/29/redesign-tag-transform/">Dustan Orchard</a> (scroll about half-way down that page). The trick is to style
-your <code>&lt;ol&gt;</code> so that the line numbers are displayed but don't get copied.</p>
-<p>Interestingly, modern highlighters such as Pygments still have not solved this
-problem. Pygments specifically still uses a table, of only one row and two
-columns. The first column contains all the line numbers with line breaks in a
-single cell and the second column contains all the lines of code, again with
-line breaks in a single cell. Assuming your styling is correct, the line
-numbers in the first column should line up with the corresponding lines in
-column two. Unfortunately, I have seen many sites where this is broken.
-Strangely, it seems to be more of a problem on longer snippets, so the site
-designer probably didn't catch it on his short test examples while adjusting
-the styling to fit his site. On some very long snippets, the line numbers
-actually end short of the number of lines. While, this allows one to select and
-copy the code within one table cell and avoid getting line numbers, it simply is
-not an acceptable solution. Someone really should write a new formatter for
-Pygments that uses the much better ordered-list.</p>
-<p>One of the downsides of the ordered-list solution to line numbering is that if
-the client has CSS turned off, the user will still get line numbers when
-copying and pasting. But, how often does a user have CSS turned off and
-JavaScript still on? I would guess not often enough to be a concern. Today a
-number of JavaScript libraries exist which do the syntax highlighting and line
-numbering themselves -- no server side code needed. So, in cases where CSS and 
-JavaScript are disabled, the JavaScript will never run and the code blocks will
-remain in their plain, unadulterated state ready for copying and pasting line
-number free.</p>
-<h3>The Un-Styled Source</h3>
-<p>But there is something else interesting about Dustan Orchard's solution. Even
-if the line numbers were still a problem when it came to copying and pasting, a
-link is provided to download each snippet as a separate file in its original
-plain text form -- no line numbers anywhere. Unfortunately, for Dustan this
-means each snippet needs to be in a separate file on his server. His code then
-parses the post and finds each instance of his custom markup, determines where
-the source file is, reads it from the file system, and inserts it into his HTML
-line by line before sereving it. Not ideal. Besides, I am working with Markdown
-where the snippets are inline with the body of text and simply marked as code
-blocks according to Markdown's syntax. How am I going to serve each snippet
-separately, especially when I have multiple snippets in one document. I'm sure
-it's possible, but not really worth the effort in my opinion.</p>
-<p>I suppose one could include two copies of the snippet in the HTML document; one
-styled and one not. Then with a little JavaScript, the user could toggle back
-and forth between the two. But if your using JavaScript, there's a better
-option. </p>
-<p>Consider the project that I believe started life as that wonky
-dp.SyntaxHighlighter library I spoke of earlier: <a href="http://code.google.com/p/syntaxhighlighter/">SyntaxHighlighter</a>. I
-realize the link goes to an old abandoned version of the project, but go take a
-look at the sample provided in the summary there. Notice the extra links at the
-top of the screen capture? If it wasn't just an image, clicking on them would
-reveal that they are links, one of which gives you the option to "view plain"
-code. The <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">newer version</a> of the project gives you the same option as a little
-pop-up when you hover your mouse over the block of code, as does the
-<a href="http://startbigthinksmall.wordpress.com/2008/10/30/beautyofcode-jquery-plugin-for-syntax-highlighting/">jQuery plugin</a> adaptation of the library which actually outputs valid HTML.
-Personally, I like the old styling better, but that should be customizable.</p>
-<p>The point is that this is only possible with JavaScript. As the server is
-sending the document with the plain code wrapped in <code>&lt;pre&gt;</code> and/or <code>&lt;code&gt;</code>
-tags, the code will display fine in browsers with CSS and/or JavaScript turned
-off. However, with JavaScript enabled, we get the pretty version. However, as
-we already have the original plain text version available client-side, its easy
-to have JavaScript open a little pop-up window that displays the plain-text
-code. While pop-ups are generally to be avoided, they are only used here when
-specifically activated by the end user and they serve a useful purpose in this
-context. I would imagine the end user could think that the plain code has
-actually been fetched from the server as a separate file like Dustan Orchard's 
-site does. Except, the code displays instantaneously without the delay of a
-request. And there's no dance involved in including two versions and figuring
-out which one to display and which one to hide by default. I suspect that's why
-at least one such JavaScript library (<a href="http://softwaremaniacs.org/soft/highlight/en/">Highlight.js</a>) markets itself as
-working specifically with Markdown.</p>
-<h3>The State of JavaScript Libraries</h3>
-<p>Like the server-side libraries, many of these JavaScript libraries accept
-patches for additional languages or even have a mechanism for adding your own
-extensions (<a href="http://shjs.sourceforge.net/">SHJS</a> provides an interesting solution for this). Really, you
-have little to loose and much to gain by using them. A quick Google search
-turned up this <a href="http://www.webdesignbooth.com/9-useful-javascript-syntax-highlighting-scripts/">list of nine</a> JavaScript libraries currently out there (not
-counting SHJS mentioned earlier). Unfortunately, it appears that only two of
-those (<a href="http://pradador.com/code/lighterjs/">Lighter.js</a> and <a href="http://code.google.com/p/jquery-chili-js/">Chili</a>) actually have solved the
-line-numbers-in-copy-and-paste problem. Actually, most of them don't even
-support line numbering, but those that do all have a solution of one kind or
-another.<sup id="fnref:4"><a class="footnote-ref" href="#fn:4" rel="footnote">4</a></sup> The worst part is, all of the libraries that generate line numbers
-are jQuery or MooTools extensions. I'd really like a standalone solution that
-actually output valid HTML (that last bit disqualifies SyntaxHighlighter).</p>
-<p>Another problem is that each of those JavaScript libraries uses a slightly
-different syntax to determine what code blocks are to be highlighted and what
-language to highlight them as. In other words, a library like Markdown can't
-just output all its code blocks using one format and expect it to work with any
-JavaScript syntax highlighting library. And that's a problem.</p>
-<h3>The Sad Conclusion</h3>
-<p>Something that may seem to be missing from this analysis is a good look at
-libraries in languages other than Python and JavaScript. While that may be worth
-doing, it's beside the point really. Suppose you find a good library in language
-X, but are forced to develop a project in language Y (perhaps due to
-client/employer demands). Now that library is rather useless -- unless that
-library happens to be in JavaScript and is not a plugin for a specific
-JavaScript framework you also happen not to be using on this particular project.
-I simply used the state of Python libraries above as examples
-because that is what I am most familiar with. However, I have experienced the
-same usability problems and annoyances on various sites developed on all sorts
-of platforms. While we have come a long way, it is evident that we still have a
-long way to go.</p>
-<p>So, yes, I think JavaScript libraries for syntax highlighting on the web are
-the way of the future. I don't expect to be putting much effort into
-server-side solutions from here-on-out. Any efforts will be directed primarily
-at the client-side offerings out there. Hopefully we can make them better.</p>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>The <a href="http://www.freewisdom.org/projects/python-markdown/WikiLinks">first extension</a> I released publicly was a simple little thing
-that converted WikiLinks to links. It simply served as a means to better
-understand Python-Markdown's extension API. I had actually started the core
-of my highlighting extension before the wikilink extension was thought of.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>Ruby has since gained a few libraries since then. Two being
-<a href="http://ultraviolet.rubyforge.org/">Ultraviolet</a> and <a href="http://22bits.exofire.net/browse/code/colourcode">ColourCode</a>, both of which I know nothing about.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
-</li>
-<li id="fn:3">
-<p>For those who don't know, the Python tokenizer is callable from Python
-code. It will return a list of tokens which you can easily iterate over and
-build a bunch of appropriately styled spans for syntax highlighted Python
-code on the web.&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text">&#8617;</a></p>
-</li>
-<li id="fn:4">
-<p>Actually that is not entirely true. For example, while Google's own
-library (<a href="http://code.google.com/p/google-code-prettify/">google-code-prettify</a>) does not directly support line numbers,
-they suggest a rather lousy workaround on their <a href="http://google-code-prettify.googlecode.com/svn/trunk/README.html">FAQs</a> page (second to
-last FAQ). Ugh.&#160;<a class="footnote-backref" href="#fnref:4" rev="footnote" title="Jump back to footnote 4 in the text">&#8617;</a></p>
-</li>
-</ol>
+    <!-- Enable latex plugin -->
+
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="achinghead.com" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="achinghead.com"/>
+        <meta property="og:url" content="http://achinghead.com"/>
+        <meta property="og:description" content="achinghead.com"/>
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+            <article>
+                <h2><a href="http://achinghead.com/nl2br-markdown.html">Newline-to-Break and Markdown</a></h2>
+                <div class="summary"><p>I&rsquo;ve been giving a lot of thought lately to the behavior popularized by <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown</a> where all newlines result in breaks (<code>&lt;br&gt;</code>). I am
+not suggesting that <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> should change in any way, but I am trying to
+clarify my opinion of the altered behavior (hereinafter &lsquo;nl2br&rsquo;) in ...</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/nl2br-markdown.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/marking-up-code.html">Marking up Code</a></h2>
+                <div class="summary"><p>There are as many different ways to mark up a code fragment in HTML as
+there are highlighting tools. Some use <code>pre</code> tags, some use &lsquo;code&rsquo; tags,
+some use both, and then there are those that use other elements like <code>div</code>
+tags. Who&rsquo;s right? The HTML5 specification provides some very clear
+direction on the matter&hellip;</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/marking-up-code.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/syntax-highlighting-web.html">Syntax Highlighting on the Web</a></h2>
+                <div class="summary"><p>The state of Syntax highlighting on the web, why I think JavaScript highlighting libraries make more sense than server side solutions and how that relates to Markdown.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/syntax-highlighting-web.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/python-markdown-changing-bold-italics.html">Python-Markdown Tutorial Part 2: Changing Bold and Italics</a></h2>
+                <div class="summary"><p>Part 2 in a series of tutorials which step through creating a simple
+Python-Markdown Extension that slightly alters the Markdown syntax.
+Specifically, in this part, we redefine the &ldquo;bold&rdquo; and &ldquo;italics&rdquo; syntax,
+overriding the parsers current behavior.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/python-markdown-changing-bold-italics.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/python-markdown-adding-insert-delete.html">Python-Markdown Tutorial Part 1: Adding InlinePatterns Insert and Delete</a></h2>
+                <div class="summary"><p>A tutorial which steps through creating a simple Python-Markdown
+Extension which slightly alters the Markdown syntax. Specifically, we add an
+inline syntax for <code>&lt;ins&gt;</code> and <code>&lt;del&gt;</code>.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/python-markdown-adding-insert-delete.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/nosetests-generators-descriptions.html">Nosetests, Generators and Descriptions</a></h2>
+                <div class="summary"><p>I&rsquo;ve recently been playing around with the nose testing framework for
+Python. It&rsquo;s pretty slick! With the various hooks for plugins, one can make it
+work pretty much however one wants. And what I especially like is support for
+generators. However, even with all this power, giving a meaningful name to each
+generated test is less than straightforward. Here are a few approaches that
+work.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/nosetests-generators-descriptions.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/git-interactive-rebase-and-ubuntu.html">Git, Interactive Rebase and Ubuntu</a></h2>
+                <div class="summary"><p>Ubuntu provides an older version of Git that lacks the interactive rebase
+option. Here&rsquo;s how I upgraded and got things working properly for total
+control of of my git repositories.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/git-interactive-rebase-and-ubuntu.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/installing-multiple-versions-python.html">Installing multiple versions of Python on Ubuntu from Source</a></h2>
+                <div class="summary"><p>Here&rsquo;s how I got Python 2.3, 2.4, 2.5, 2.6 and 3.0 all installed and
+working on an Ubuntu VirtualBox.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/installing-multiple-versions-python.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/announcing-django-spambayes.html">Announcing Django-SpamBayes</a></h2>
+                <div class="summary"><p>I&rsquo;ve just released <a href="http://code.google.com/p/django-spambayes/">Django-SpamBayes</a> v0.1 which includes a few utility
+apps for <a href="http://djangoproject.com/">Django</a> that offer an easy to use interface to the <a href="http://spambayes.sourceforge.net/">SpamBayes</a>
+statistical anti-spam filter allowing filtering and moderation (with
+training) of comments, contact forms and other publicly submitted data.
+Currently, two applications are available: <a href="http://code.google.com/p/django-spambayes/source/browse/trunk/docs/djangobayes.txt">DjangoBayes</a>, which wraps the
+Django model and provides the SpamBayes API; and <a href="http://code.google.com/p/django-spambayes/source/browse/trunk/docs/commentbayes.txt">CommentBayes</a>, which is
+an add-on to Django&rsquo;s <a href="http://docs.djangoproject.com/en/dev/ref/contrib/comments/">contrib.comments</a> application and provides
+filtering and moderation of comments through signals.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/announcing-django-spambayes.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/reviewing-markdown-response.html">Reviewing Markdown -- A Response</a></h2>
+                <div class="summary"><p><a href="http://pyre.third-bit.com/">Greg Wilson</a> has posted a <a href="http://pyre.third-bit.com/blog/archives/1371.html">code review</a> of <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>.
+As I&rsquo;m one of the developers, I read it with interest. This is my response.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/reviewing-markdown-response.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/installing-virtualbox-binaries-ubuntu-710-gutsy-gi.html">Installing VirtualBox Binaries on a Ubuntu 7.10 (Gutsy Gibbon) Host</a></h2>
+                <div class="summary"><p>How I got VirtualBox running on Ubuntu 7.10 (Gutsy Gibbon).</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/installing-virtualbox-binaries-ubuntu-710-gutsy-gi.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/announcing-meta-data-extension-python-markdown.html">Announcing the Meta-Data Extension for Python-Markdown</a></h2>
+                <div class="summary"><p>I&rsquo;ve just released a <a href="http://achinghead.com/markdown/meta-data/">Meta-Data Extension</a> for
+<a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>. I&rsquo;ve also updated the <a href="http://achinghead.com/markdown/wikilink/">WikiLink</a> and
+<a href="http://achinghead.com/markdown/abbr/">Abbreviation</a> extensions to support it. Here&rsquo;s how it came about.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/announcing-meta-data-extension-python-markdown.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/announcing-abbreviation-extension-python-markdown.html">Announcing the Abbreviation Extension for Python-Markdown</a></h2>
+                <div class="summary"><p>I&rsquo;ve just released my first try at an <a href="http://achinghead.com/markdown/abbr/">Abbreviation Extension</a> for
+<a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>. Here&rsquo;s how it came about.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/announcing-abbreviation-extension-python-markdown.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/clipless-glove-researching-pedals.html">Clipless Glove: Researching Pedals</a></h2>
+                <div class="summary"><p>The first step in developing the
+&ldquo;<a href="http://achinghead.com/archive/tag/clipless-glove/">Clipless Glove</a>&rdquo; is
+determining which clipless system I&rsquo;m going to use. Everything else will
+then be built around that. Here&rsquo;s what I&rsquo;ve found and considered so far. Any
+suggestions or donated parts would be most welcome.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/clipless-glove-researching-pedals.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/clipless-glove-and-open-prosthetics-project.html">Clipless Glove and The Open Prosthetics Project</a></h2>
+                <div class="summary"><p><a href="http://openprosthetics.org">The Open Prosthetics Project</a> has
+re-motivated me to work on a solution that allows my sister to ride a
+bicycle. I explain here.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/clipless-glove-and-open-prosthetics-project.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/daytime-running-lights-more-control.html">Daytime Running Lights - With More Control</a></h2>
+                <div class="summary"><p>This is a re-post of the only entry that was worth saving from a failed
+<a href="http://achinghead.com/archive/63/testing-typo/">side-blog</a> I had tried some
+time ago. This entry was originally, posted on Oct 12, 2005 - over a year ago.
+The car I speak of here has since been totaled and sent off to the scrap yard
+after a deer jumped in front of me. Perhaps someday I&rsquo;ll carry out my ideas here
+on another vehicle.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/daytime-running-lights-more-control.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/announcing-markdown-codehilite-extension.html">Announcing The Markdown CodeHilite Extension</a></h2>
+                <div class="summary"><p>The Markdown CodeHilite Extension adds code/syntax highlighting to
+standard Python-Markdown code blocks using one of three highlighting
+engines: GNU Enscript, dp.SyntaxHighlighter and Pygments. <a href="http://achinghead.com/markdown/codehilite/">Check it
+out</a> or keep reading to see how
+it all came about.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/announcing-markdown-codehilite-extension.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/markdown-wikilinks-release-02.html">Markdown WikiLinks Release 0.2</a></h2>
+                <div class="summary"><p>I&rsquo;ve made some improvements to my WikiLink extension for Python-Markdown.
+And added a page for it.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/markdown-wikilinks-release-02.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/django-blog-and-markdown.html">Django Blog and Markdown</a></h2>
+                <div class="summary"><p>As I mentioned previously, I wanted to edit my posts in Markdown. I had
+played with Markdown both in Python and Django before, so it was a rather
+simple addition, but I wanted it to work without hiccups on different
+systems with varying needs. Therefore I can up with the following &lsquo;markdown&rsquo;
+filter:</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/django-blog-and-markdown.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/k2-with-django.html">K2 with Django</a></h2>
+                <div class="summary"><p>Some time ago, <a href="http://jay.skabber.com/wordpress/">Jay Skabber</a> stated
+that <a href="http://socialistsoftware.com/post/socialist-software-now-powered-django">his
+blog</a>
+was powered by <a href="http://djangoproject.com">Django</a>, and used
+<a href="http://getk2.com">K2</a> templates converted to Django&rsquo;s template format. Of
+course, any one could see at a quick glance that he was using his own styles
+in place of the default K2 styles. In the spirit of the <a href="http://www.csszengarden.com/">CSS Zen
+Garden</a>, this is part of the beauty of K2. A
+sound html base is provided that any designer can build upon making it
+necessary to only provide a new style sheet and images to get a very
+difference looking site.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/k2-with-django.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/enhancing-django-wikiproject-part-1-adding-authent.html">Enhancing Django Wikiproject Part 1 - Adding Authentication</a></h2>
+                <div class="summary"><p>Adding some simple authentication using Django&rsquo;s built in system to Paul
+Bisex&rsquo;s simple wikiproject.</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/enhancing-django-wikiproject-part-1-adding-authent.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="http://achinghead.com/adding-wikilinks-to-markdown-in-python.html">Adding WikiLinks to Markdown in Python</a></h2>
+                <div class="summary"><p>I needed Markdown to be extended to support wikilinks. It just so happens
+that the <a
+href='http://www.freewisdom.org/projects/python-markdown/'>markdown lib for
+python</a> makes this easy. After only a little head scratching I was able
+to come up with the following&hellip;</p>
+                    <a class="btn btn-default btn-xs" href="http://achinghead.com/adding-wikilinks-to-markdown-in-python.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
+
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
 </div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
 
-  </article>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>

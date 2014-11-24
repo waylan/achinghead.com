@@ -1,63 +1,121 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com &ndash; Announcing The Markdown CodeHilite Extension</title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Announcing The Markdown CodeHilite Extension - achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="announcing-markdown-codehilite-extension.html" rel="bookmark" title="link to this post">Announcing The Markdown CodeHilite Extension</a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2006-11-27" pubdate>November 27, 2006</time></h2>
-      <hgroup>
-    </header> 
- 
-<p>Finally, after many code variations and internal debates over syntax highlighting engines, I am happy to announce that Version 0.1 of the <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a> CodeHilite Extension has been released. You can read all about it and download it from the <a href="http://achinghead.com/markdown/codehilite/">official page</a>. </p>
-<p>I know that some time ago an extension was released that highlighted Python code. However, that extension introduced a new syntax for identifying code blocks (wrapped in brackets [ ]), only worked with Python code, and seems to no longer be available  online. The third problem aside, I wanted to do better. In fact, when that extension was released I already had a working prototype that at that time also only worked with python code. The difference was that mine used regular (indented) code blocks. Unfortunately, at that time, I was sub-classing the <code>Markdown</code> class (overriding the <code>_processCodeBlock()</code> function). It worked, but was not ideal and certainly didn't play nice with other extensions<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>. Therefore, I have kept silent until now.</p>
-<p>At some point after that I was able to get working code that called <a href="http://www.codento.com/people/mtr/genscript/">GNU Enscript</a> from the command line. While not the most ideal solution, it would be something that most any *nix system would have available. At that time I devised the syntax for identifying the language of a code block which draws heavily from shebang lines. The 'colon' syntax came from the fact that Markdown originally used two or more colons at the beginning of each line to identify code blocks. It seemed only natural to build on that.</p>
+
+<link rel="canonical" href="http://achinghead.com/announcing-markdown-codehilite-extension.html">
+
+        <meta name="author" content="Waylan Limberg" />
+        <meta name="keywords" content="markdown,python" />
+        <meta name="description" content="The Markdown CodeHilite Extension adds code/syntax highlighting to standard Python-Markdown code blocks using one of three highlighting engines: GNU Enscript, dp.SyntaxHighlighter and Pygments. Check it out or keep reading to see how it all came about." />
+
+    <!-- Enable latex plugin -->
+
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://achinghead.com/announcing-markdown-codehilite-extension.html"
+                       rel="bookmark"
+                       title="Permalink to Announcing The Markdown CodeHilite Extension">
+                        Announcing The Markdown CodeHilite Extension
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2006-11-27T00:00:00-05:00"> November 27, 2006</time>
+    </span>
+
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://achinghead.com/tag/markdown.html">markdown</a>
+        /
+	<a href="http://achinghead.com/tag/python.html">python</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Finally, after many code variations and internal debates over syntax highlighting engines, I am happy to announce that Version 0.1 of the <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a> CodeHilite Extension has been released. You can read all about it and download it from the <a href="http://achinghead.com/markdown/codehilite/">official page</a>. </p>
+<p>I know that some time ago an extension was released that highlighted Python code. However, that extension introduced a new syntax for identifying code blocks (wrapped in brackets [ ]), only worked with Python code, and seems to no longer be available  online. The third problem aside, I wanted to do better. In fact, when that extension was released I already had a working prototype that at that time also only worked with python code. The difference was that mine used regular (indented) code blocks. Unfortunately, at that time, I was sub-classing the <code>Markdown</code> class (overriding the <code>_processCodeBlock()</code> function). It worked, but was not ideal and certainly didn&rsquo;t play nice with other extensions<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>. Therefore, I have kept silent until now.</p>
+<p>At some point after that I was able to get working code that called <a href="http://www.codento.com/people/mtr/genscript/">GNU Enscript</a> from the command line. While not the most ideal solution, it would be something that most any *nix system would have available. At that time I devised the syntax for identifying the language of a code block which draws heavily from shebang lines. The &lsquo;colon&rsquo; syntax came from the fact that Markdown originally used two or more colons at the beginning of each line to identify code blocks. It seemed only natural to build on that.</p>
 <p>Then, Yuri released Markdown 1.6 which considerably changed the way extensions were implemented. But then I read this statement in the revised documentation:</p>
 <blockquote>
-<p>Preprocessors, patterns and postprocessors need to then be wrapped together into an extension, which should be implemented as a class that extends markdown.Extension and should over-ride the extendMarkdown() method. extendMarkdown() is called during markdown construction, giving the extension a pointer to the markdown object (the md parameters) and markdown's global variables (md_globals), which in theory gives the extension an option of changing anything it cares to change. However, what it really should be doing is inserting preprocessors, postprocessors and patterns into the markdown pipeline:</p>
+<p>Preprocessors, patterns and postprocessors need to then be wrapped together into an extension, which should be implemented as a class that extends markdown.Extension and should over-ride the extendMarkdown() method. extendMarkdown() is called during markdown construction, giving the extension a pointer to the markdown object (the md parameters) and markdown&rsquo;s global variables (md_globals), which in theory gives the extension an option of changing anything it cares to change. However, what it really should be doing is inserting preprocessors, postprocessors and patterns into the markdown pipeline:</p>
 </blockquote>
-<p>The part that caught my eye was that the extension was 'given a pointer to the markdown object', "which in theory gives the extension an option of changing anything it cares to change. " Sure enough, <code>extendMarkdown()</code> is passed <code>md</code> which is, as far as I can tell, the equivalent of <code>self</code> within an instance of <code>Markdown()</code>. As everything is an object in Python, I was easily able to replace/override the <code>_processCodeBlock()</code> function with my own. This one line (within <code>extendMarkdown()</code>) did the trick:</p>
-<pre><code class="language-python">md._processCodeBlock = _hiliteCodeBlock
-</code></pre>
-<p>Just like that, I had a viable solution. I threw in a few configuration settings and was ready to release, with one problem. While Enscript may be a great fall back when nothing else is available, it's not an ideal solution IMHO.</p>
-<p>I recalled that <a href="http://e-scribe.com/news/">Paul Bisex</a> had used a javascript solution (<a href="http://www.dreamprojections.com/syntaxhighlighter/Default.aspx">dp.SyntaxHighlighter</a>) in the first implementation of his <a href="http://e-scribe.com/news/247">paste-bin</a>. While viable, for reasons I shouldn't need to state here, I wouldn't want it to be an only solution. Then, as I'm about to give it a go anyway, Paul goes and <a href="http://e-scribe.com/news/299">changes</a> his paste-bin to use <a href="http://pygments.pocoo.org/">Pygments</a>. Wow, just what I was looking for! Thanks Paul.</p>
-<p>Thus, the CodeHilite extension was born as you know it. I left Enscript support as a fall-back just in case. I left dp.SyntaxHighlighter in for those who want to offer non-highlighted code for all there code blocks in addition to the 'pretty code' (The only real advantage of a client-side solution IMO). And I set Pygments as the default engine. Overall, I'm pretty happy with how things turned out.</p>
+<p>The part that caught my eye was that the extension was &lsquo;given a pointer to the markdown object&rsquo;, &ldquo;which in theory gives the extension an option of changing anything it cares to change. &rdquo; Sure enough, <code>extendMarkdown()</code> is passed <code>md</code> which is, as far as I can tell, the equivalent of <code>self</code> within an instance of <code>Markdown()</code>. As everything is an object in Python, I was easily able to replace/override the <code>_processCodeBlock()</code> function with my own. This one line (within <code>extendMarkdown()</code>) did the trick:</p>
+<div class="highlight"><pre><span class="n">md</span><span class="o">.</span><span class="n">_processCodeBlock</span> <span class="o">=</span> <span class="n">_hiliteCodeBlock</span>
+</pre></div>
+
+
+<p>Just like that, I had a viable solution. I threw in a few configuration settings and was ready to release, with one problem. While Enscript may be a great fall back when nothing else is available, it&rsquo;s not an ideal solution IMHO.</p>
+<p>I recalled that <a href="http://e-scribe.com/news/">Paul Bisex</a> had used a javascript solution (<a href="http://www.dreamprojections.com/syntaxhighlighter/Default.aspx">dp.SyntaxHighlighter</a>) in the first implementation of his <a href="http://e-scribe.com/news/247">paste-bin</a>. While viable, for reasons I shouldn&rsquo;t need to state here, I wouldn&rsquo;t want it to be an only solution. Then, as I&rsquo;m about to give it a go anyway, Paul goes and <a href="http://e-scribe.com/news/299">changes</a> his paste-bin to use <a href="http://pygments.pocoo.org/">Pygments</a>. Wow, just what I was looking for! Thanks Paul.</p>
+<p>Thus, the CodeHilite extension was born as you know it. I left Enscript support as a fall-back just in case. I left dp.SyntaxHighlighter in for those who want to offer non-highlighted code for all there code blocks in addition to the &lsquo;pretty code&rsquo; (The only real advantage of a client-side solution IMO). And I set Pygments as the default engine. Overall, I&rsquo;m pretty happy with how things turned out.</p>
 <div class="footnote">
 <hr />
 <ol>
@@ -66,14 +124,152 @@
 </li>
 </ol>
 </div>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
-  </article>
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>

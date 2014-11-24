@@ -1,68 +1,134 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com &ndash; Git, Interactive Rebase and Ubuntu</title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Git, Interactive Rebase and Ubuntu - achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="git-interactive-rebase-and-ubuntu.html" rel="bookmark" title="link to this post">Git, Interactive Rebase and Ubuntu</a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2008-12-12" pubdate>December 12, 2008</time></h2>
-      <hgroup>
-    </header> 
- 
-<p>As mentioned <a href="http://achinghead.com/archive/83/installing-multiple-versions-python/">previously</a>, I have a Ubuntu VirtualBox VM set up for all my python development. As we use <a href="http://git.or.cz/">Git</a> for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>, I installed Git via Ubuntu/Debian's package manager with a simple <code>sudo aptitude install git</code> -- or so I thought:</p>
-<pre><code>waylan@dev:~$ git
+
+<link rel="canonical" href="http://achinghead.com/git-interactive-rebase-and-ubuntu.html">
+
+        <meta name="author" content="Waylan Limberg" />
+        <meta name="keywords" content="git,linux,Ubuntu,VirtualBox" />
+        <meta name="description" content="Ubuntu provides an older version of Git that lacks the interactive rebase option. Here’s how I upgraded and got things working properly for total control of of my git repositories." />
+
+    <!-- Enable latex plugin -->
+
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://achinghead.com/git-interactive-rebase-and-ubuntu.html"
+                       rel="bookmark"
+                       title="Permalink to Git, Interactive Rebase and Ubuntu">
+                        Git, Interactive Rebase and Ubuntu
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2008-12-12T00:00:00-05:00"> December 12, 2008</time>
+    </span>
+
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://achinghead.com/tag/git.html">git</a>
+        /
+	<a href="http://achinghead.com/tag/linux.html">linux</a>
+        /
+	<a href="http://achinghead.com/tag/ubuntu.html">Ubuntu</a>
+        /
+	<a href="http://achinghead.com/tag/virtualbox.html">VirtualBox</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>As mentioned <a href="http://achinghead.com/archive/83/installing-multiple-versions-python/">previously</a>, I have a Ubuntu VirtualBox VM set up for all my python development. As we use <a href="http://git.or.cz/">Git</a> for <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>, I installed Git via Ubuntu/Debian&rsquo;s package manager with a simple <code>sudo aptitude install git</code> &ndash; or so I thought:</p>
+<div class="highlight"><pre>waylan@dev:~$ git
 bash: git: command not found
-</code></pre>
+</pre></div>
+
+
 <p>Oh, right! The <a href="http://packages.ubuntu.com/gutsy/git">git package</a> has nothing to do with Git. I have to use <a href="http://packages.ubuntu.com/gutsy/git-core">git-core</a>: </p>
-<pre><code>sudo aptitude install git-core
-</code></pre>
-<p>So, now that I had Git installed, I went on my way, hacking on code and committing each step of the way. Whoops, I just committed an incomplete patch. Oh well, I'll commit the missing pieces separately, and use interactive rebase to squash the two commits. Hmm, what do I put for a commit message? Oh, who cares, it's a throw-away message anyway... And then I am horrified to discover that the version of Git I have is as 1.5.2.5 but interactive rebase wasn't added until 1.5.3. Therefore, Python-Markdown has commits like <a href="http://gitorious.org/projects/python-markdown/repos/mainline/commits/b443efad9ae25f8f8ab421907d71c2b87e3b095a">this</a> and <a href="http://gitorious.org/projects/python-markdown/repos/mainline/commits/971d605e2e1d0652b5ea161fe0c35a40d9685e5c">this</a>. Grrr.</p>
-<p>Curiously, my primary machine has a new version of Git installed. Oh, right. Apt is broken on that machine (I haven't bothered to debug it yet) and I had to manually download and install Git there. I might as well do the same on my dev VM. So, I go to the Git site, and to my delight, they host <a href="http://www.backports.org/debian/pool/main/g/git-core">deb files</a> of the most recent builds of Git.</p>
-<pre><code>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.6.5-1~bpo40+1_i386.deb
+<div class="highlight"><pre>sudo aptitude install git-core
+</pre></div>
+
+
+<p>So, now that I had Git installed, I went on my way, hacking on code and committing each step of the way. Whoops, I just committed an incomplete patch. Oh well, I&rsquo;ll commit the missing pieces separately, and use interactive rebase to squash the two commits. Hmm, what do I put for a commit message? Oh, who cares, it&rsquo;s a throw-away message anyway&hellip; And then I am horrified to discover that the version of Git I have is as 1.5.2.5 but interactive rebase wasn&rsquo;t added until 1.5.3. Therefore, Python-Markdown has commits like <a href="http://gitorious.org/projects/python-markdown/repos/mainline/commits/b443efad9ae25f8f8ab421907d71c2b87e3b095a">this</a> and <a href="http://gitorious.org/projects/python-markdown/repos/mainline/commits/971d605e2e1d0652b5ea161fe0c35a40d9685e5c">this</a>. Grrr.</p>
+<p>Curiously, my primary machine has a new version of Git installed. Oh, right. Apt is broken on that machine (I haven&rsquo;t bothered to debug it yet) and I had to manually download and install Git there. I might as well do the same on my dev VM. So, I go to the Git site, and to my delight, they host <a href="http://www.backports.org/debian/pool/main/g/git-core">deb files</a> of the most recent builds of Git.</p>
+<div class="highlight"><pre>wget http://www.backports.org/debian/pool/main/g/git-core/git-core_1.5.6.5-1~bpo40+1_i386.deb
 sudo dpkg --install git-core_1.5.6.5-1~bpo40+1_i386.deb
-</code></pre>
-<p>That's better. I type <code>git rebase -i HEAD~5</code> and my editor opens with the last five commits (<code>HEAD~5</code>) listed along with some helpful instructions:</p>
-<pre><code>pick 358decd A few more tweaks to extension loading. We don't test trying to load non-existant or broken extensions often enough. This should handle things better.
+</pre></div>
+
+
+<p>That&rsquo;s better. I type <code>git rebase -i HEAD~5</code> and my editor opens with the last five commits (<code>HEAD~5</code>) listed along with some helpful instructions:</p>
+<div class="highlight"><pre>pick 358decd A few more tweaks to extension loading. We don&#39;t test trying to load non-existant or broken extensions often enough. This should handle things better.
 pick b443efa foo
-pick 971d605 Revert "foo"
+pick 971d605 Revert &quot;foo&quot;
 pick c669bf0 One more tweak to extension loading.
-pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whitespace. For example, this would allow an extension to remove/replace 'Prettify' treeprocessor with something that added more or less whitespace without adverse effects.
+pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whitespace. For example, this would allow an extension to remove/replace &#39;Prettify&#39; treeprocessor with something that added more or less whitespace without adverse effects.
 
 # Rebase c1f4bc1..d6711cf onto c1f4bc1
 #
@@ -74,25 +140,169 @@ pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whi
 # If you remove a line here THAT COMMIT WILL BE LOST.
 # However, if you remove everything, the rebase will be aborted.
 #
-</code></pre>
+</pre></div>
+
+
 <p>The instructions are pretty self explainitory. So I edit the file like so and save it:</p>
-<pre><code>pick 358decd A few more tweaks to extension loading. We don't test trying to load non-existant or broken extensions often enough. This should handle things better.
+<div class="highlight"><pre>pick 358decd A few more tweaks to extension loading. We don&#39;t test trying to load non-existant or broken extensions often enough. This should handle things better.
 squash c669bf0 One more tweak to extension loading.
-pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whitespace. For example, this would allow an extension to remove/replace 'Prettify' treeprocessor with something that added more or less whitespace without adverse effects.
-</code></pre>
+pick d6711cf Normalized stripTopLevelTags to be consistant regardless of any whitespace. For example, this would allow an extension to remove/replace &#39;Prettify&#39; treeprocessor with something that added more or less whitespace without adverse effects.
+</pre></div>
+
+
 <p>The rebase runs with one more stop in the editor for me to edit the commit message. After saving that, the logs are now fixed up all nice and pretty. To bad I had pushed those changes public before the rebase. Now that others have cloned the bad commits, their clones will never merge properly with the fixed one. Oh well, at least I have the tools in place to avoid doing that again.</p>
 <p>One other cool (undocumented) feature of interactive rebase is that if you reorder the commits, they will be reordered in the log as well. In the event that the rebase runs into a conflict (which could easily happen when reordering) it will pause, allow you to fix the conflict and continue with the command:</p>
-<pre><code>git rebase --continue
-</code></pre>
-<p>This is one of the reasons I really like Git. As a distributed system, I can commit locally, edit/reorder/remove/combine those commits however I like and only when I am happy with everything, push those commits to a public repo for the world to see. Yes, that means I don't push after each commit -- only after a feature is complete.</p>
+<div class="highlight"><pre>git rebase --continue
+</pre></div>
 
-  </article>
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<p>This is one of the reasons I really like Git. As a distributed system, I can commit locally, edit/reorder/remove/combine those commits however I like and only when I am happy with everything, push those commits to a public repo for the world to see. Yes, that means I don&rsquo;t push after each commit &ndash; only after a feature is complete.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
+
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>

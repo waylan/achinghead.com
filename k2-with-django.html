@@ -1,87 +1,287 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com &ndash; K2 with Django</title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>K2 with Django - achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="k2-with-django.html" rel="bookmark" title="link to this post">K2 with Django</a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2006-04-18" pubdate>April 18, 2006</time></h2>
-      <hgroup>
-    </header> 
- 
-<p><strong>Note</strong> I first drafted this entry over a month ago and there have been a number of changes to the original source upon which I am building here. Therefore, some of my concerns are not all that relevant. I think it's still interesting nonetheless.</p>
-<p>Some time ago, <a href="http://jay.skabber.com/wordpress/">Jay Skabber</a> stated that <a href="http://socialistsoftware.com/post/socialist-software-now-powered-django">his blog</a>  was powered by <a href="http://djangoproject.com">Django</a>, and used <a href="http://getk2.com">K2</a> templates converted to Django's template format. Of course, any one could see at a quick glance that he was using his own styles in place of the default K2 styles. In the spirit of the <a href="http://www.csszengarden.com/">CSS Zen Garden</a>, this is part of the beauty of K2. A sound html base is provided that any designer can build upon making it necessary to only provide a new style sheet and images to get a very difference looking site.</p>
-<p>After <a href="http://source.socialistsoftware.com/sssource/">getting a copy</a> installed and running on my local test box, the first thing I did was replace Jay's style sheet with the default for K2 along with the necessary images and <strong>Presto!</strong> just like that, I was looking at K2.</p>
+
+<link rel="canonical" href="http://achinghead.com/k2-with-django.html">
+
+        <meta name="author" content="Waylan Limberg" />
+        <meta name="keywords" content="django,python" />
+        <meta name="description" content="Some time ago, Jay Skabber stated that his blog was powered by Django, and used K2 templates converted to Django’s template format. Of course, any one could see at a quick glance that he was using his own styles in place of the default K2 styles. In the spirit of the CSS Zen Garden, this is part of the beauty of K2. A sound html base is provided that any designer can build upon making it necessary to only provide a new style sheet and images to get a very difference looking site." />
+
+    <!-- Enable latex plugin -->
+
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://achinghead.com/k2-with-django.html"
+                       rel="bookmark"
+                       title="Permalink to K2 with Django">
+                        K2 with Django
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2006-04-18T00:00:00-04:00"> April 18, 2006</time>
+    </span>
+
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://achinghead.com/tag/django.html">django</a>
+        /
+	<a href="http://achinghead.com/tag/python.html">python</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><strong>Note</strong> I first drafted this entry over a month ago and there have been a number of changes to the original source upon which I am building here. Therefore, some of my concerns are not all that relevant. I think it&rsquo;s still interesting nonetheless.</p>
+<p>Some time ago, <a href="http://jay.skabber.com/wordpress/">Jay Skabber</a> stated that <a href="http://socialistsoftware.com/post/socialist-software-now-powered-django">his blog</a>  was powered by <a href="http://djangoproject.com">Django</a>, and used <a href="http://getk2.com">K2</a> templates converted to Django&rsquo;s template format. Of course, any one could see at a quick glance that he was using his own styles in place of the default K2 styles. In the spirit of the <a href="http://www.csszengarden.com/">CSS Zen Garden</a>, this is part of the beauty of K2. A sound html base is provided that any designer can build upon making it necessary to only provide a new style sheet and images to get a very difference looking site.</p>
+<p>After <a href="http://source.socialistsoftware.com/sssource/">getting a copy</a> installed and running on my local test box, the first thing I did was replace Jay&rsquo;s style sheet with the default for K2 along with the necessary images and <strong>Presto!</strong> just like that, I was looking at K2.</p>
 <p>Unfortunately there were a few problems. I should mention that I started with revision 6 and Jay has made a few updates since then. It became immediately apparent that there were some glaring validation warnings. A quick perusal through the code easily cleaned them up. As an example, Jay had inserted the main body text of a post like this:</p>
-<pre><code>&lt;p&gt;{{ post.body|escape|linebreaks }}&lt;/p&gt;
-</code></pre>
-<p>The fact that he was using the <code>linebreaks</code> filter should be a dead giveaway as to what the problem was. <code>Linebreaks</code> wraps each newline in <code>&lt;p&gt;</code> tags. However, you can't wrap a bunch of paragraphs in another paragraph. Removing those <code>&lt;p&gt;</code> tags from the template solved the issue easily enough.</p>
-<p>While looking at the template files, it came to my attention that there were various blocks of code that Jay had commented out as he was not using them. While not a problem in itself, they were statically rendered in the template without the proper data being provided dynamicly. As an example, wrong trackback links were being given in the html source among other such unused services. While everything looks good to the human reader, robots could easily become confused. Therefore, I removed such sections of code. I also completely removed the code for Digg and Technorati, as I have no interest in using either.</p>
-<p>Another obvious difference is that K2 uses relative dates while Jay used exact dates formatted to his preferences. Personally, I like the relative dates. As Django already provides the <code>timesince</code> filter, this was easy as pie to change. All I had to do was replace the <code>date</code> filter and format with a call to <code>timesince</code> and add the word "ago" after the date to create a proper English sentence. For kicks, you can get the exact date by hovering over the relative date on the single post page. </p>
-<p>While I was playing with dates, I figured I'd use relative dates for the comments as well<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>. However, I didn't care how long ago the comment was made, but rather, how long after the blog entry was first posted that the comment was added. Upon looking at the code in <code>django/utils/timesince.py</code> I discovered that there is a little wrapper function <code>timeuntil()</code>, that calls <code>timesince()</code> with the start and end dates switched. For some reason there is no filter for <code>timeuntil</code>. Of course, creating one would be easy enough, but that doesn't quite do what I wanted. However, I realized that the same principle could easily be used in another filter which passed along both the date and time the blog entry was posted and the date and time of the comment. Thus, the <code>timebetween</code> filter was born, which finds the time between any two dates.</p>
-<pre><code>def timebetween(value, arg):
-    'Formats a date as the time between two dates (i.e. "4 days, 6 hours")'
-    from django.utils.timesince import timesince
-    return timesince(value, arg)
+<div class="highlight"><pre><span class="cp">{%</span> <span class="k">raw</span> <span class="cp">%}</span>&lt;p&gt;{{ post.body|escape|linebreaks }}&lt;/p&gt;<span class="cp">{%</span> <span class="k">endraw</span> <span class="cp">%}</span>
+</pre></div>
 
-register.filter('timebetween', timebetween)
-</code></pre>
+
+<p>The fact that he was using the <code>linebreaks</code> filter should be a dead giveaway as to what the problem was. <code>Linebreaks</code> wraps each newline in <code>&lt;p&gt;</code> tags. However, you can&rsquo;t wrap a bunch of paragraphs in another paragraph. Removing those <code>&lt;p&gt;</code> tags from the template solved the issue easily enough.</p>
+<p>While looking at the template files, it came to my attention that there were various blocks of code that Jay had commented out as he was not using them. While not a problem in itself, they were statically rendered in the template without the proper data being provided dynamicly. As an example, wrong trackback links were being given in the html source among other such unused services. While everything looks good to the human reader, robots could easily become confused. Therefore, I removed such sections of code. I also completely removed the code for Digg and Technorati, as I have no interest in using either.</p>
+<p>Another obvious difference is that K2 uses relative dates while Jay used exact dates formatted to his preferences. Personally, I like the relative dates. As Django already provides the <code>timesince</code> filter, this was easy as pie to change. All I had to do was replace the <code>date</code> filter and format with a call to <code>timesince</code> and add the word &ldquo;ago&rdquo; after the date to create a proper English sentence. For kicks, you can get the exact date by hovering over the relative date on the single post page. </p>
+<p>While I was playing with dates, I figured I&rsquo;d use relative dates for the comments as well<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup>. However, I didn&rsquo;t care how long ago the comment was made, but rather, how long after the blog entry was first posted that the comment was added. Upon looking at the code in <code>django/utils/timesince.py</code> I discovered that there is a little wrapper function <code>timeuntil()</code>, that calls <code>timesince()</code> with the start and end dates switched. For some reason there is no filter for <code>timeuntil</code>. Of course, creating one would be easy enough, but that doesn&rsquo;t quite do what I wanted. However, I realized that the same principle could easily be used in another filter which passed along both the date and time the blog entry was posted and the date and time of the comment. Thus, the <code>timebetween</code> filter was born, which finds the time between any two dates.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">timebetween</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+    <span class="s">&#39;Formats a date as the time between two dates (i.e. &quot;4 days, 6 hours&quot;)&#39;</span>
+    <span class="kn">from</span> <span class="nn">django.utils.timesince</span> <span class="kn">import</span> <span class="n">timesince</span>
+    <span class="k">return</span> <span class="n">timesince</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+
+<span class="n">register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s">&#39;timebetween&#39;</span><span class="p">,</span> <span class="n">timebetween</span><span class="p">)</span>
+</pre></div>
+
+
 <p>Call <code>timebetween</code> in the template like so:</p>
-<pre><code>Posted {{ post.pub_date|timebetween:comment.submit_date }} later.
-</code></pre>
-<p>That satisfied me enough to say I have a closer representation of the K2 templates. Of course, there are some glaring omissions such as no rss feeds for comments, no recent comments in the sidebar, no trackback/pingback support, and no archive pages by date. With the exception of the trackback/pingback support, everything should be simple enough to implement; however, it wasn't quite as high on my priority list as something else; namely Markdown. But that is another post for another time; as is how I'm getting my del.icio.us links.</p>
+<div class="highlight"><pre><span class="x">Posted </span><span class="cp">{%</span> <span class="k">raw</span> <span class="cp">%}</span>{{ post.pub_date|timebetween:comment.submit_date }}<span class="cp">{%</span> <span class="k">endraw</span> <span class="cp">%}</span><span class="x"> later.</span>
+</pre></div>
+
+
+<p>That satisfied me enough to say I have a closer representation of the K2 templates. Of course, there are some glaring omissions such as no rss feeds for comments, no recent comments in the sidebar, no trackback/pingback support, and no archive pages by date. With the exception of the trackback/pingback support, everything should be simple enough to implement; however, it wasn&rsquo;t quite as high on my priority list as something else; namely Markdown. But that is another post for another time; as is how I&rsquo;m getting my del.icio.us links.</p>
 <div class="footnote">
 <hr />
 <ol>
 <li id="fn:1">
-<p>Yes, I realize that K2 does not use relative dates for the comments by default. However, I chose to add them to see how easy it would be. Besides, I like them better anyway. They have allot more meaning, especially when the date for the blog entry is in a relative format. It's that much more difficult to get a sense of the time that has gone by without an exact time on each end of the equation. Additionally, I didn't add in the author's name for each post, which seems redundant as I would be the only author on my own blog. No doubt Jay had similar reason's for omitting that bit of information as well.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Yes, I realize that K2 does not use relative dates for the comments by default. However, I chose to add them to see how easy it would be. Besides, I like them better anyway. They have allot more meaning, especially when the date for the blog entry is in a relative format. It&rsquo;s that much more difficult to get a sense of the time that has gone by without an exact time on each end of the equation. Additionally, I didn&rsquo;t add in the author&rsquo;s name for each post, which seems redundant as I would be the only author on my own blog. No doubt Jay had similar reason&rsquo;s for omitting that bit of information as well.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
-  </article>
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>

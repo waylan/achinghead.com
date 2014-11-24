@@ -1,181 +1,395 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com &ndash; Nosetests, Generators and Descriptions</title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Nosetests, Generators and Descriptions - achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="nosetests-generators-descriptions.html" rel="bookmark" title="link to this post">Nosetests, Generators and Descriptions</a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2009-06-12" pubdate>June 12, 2009</time></h2>
-      <hgroup>
-    </header> 
- 
-<p>I've recently been playing around with the <a href="http://somethingaboutorange.com/mrl/projects/nose/">nose</a> testing framework for Python. It's pretty slick! With the various hooks for plugins, one can make it work pretty much however one wants. And what I especially like is support for generators.</p>
-<p>That is, given a iterable of some kind, a test function can yield a series of tests. In my case, I actually am walking a directory structure and returning a separate test for each data file. Via a plugin, I'm even able to customize the output of these specific tests to alter the failure reports by removing unhelpful information and/or otherwise making them more useful. However, even with all this power, giving a meaningful name to each generated test is less than straightforward. There's even a <a href="http://code.google.com/p/python-nose/issues/detail?id=244">bug report</a> regarding the issue.</p>
-<p>To illustrate, let's look at a simple nose test function:</p>
-<pre><code>def test_foo():
-    """ Test Foo """
-    assert False, 'Foo failed'
-</code></pre>
-<p>Run that test and you'll get:</p>
-<pre><code>F
+
+<link rel="canonical" href="http://achinghead.com/nosetests-generators-descriptions.html">
+
+        <meta name="author" content="Waylan Limberg" />
+        <meta name="keywords" content="python,Python Nose,testing" />
+        <meta name="description" content="I’ve recently been playing around with the nose testing framework for Python. It’s pretty slick! With the various hooks for plugins, one can make it work pretty much however one wants. And what I especially like is support for generators. However, even with all this power, giving a meaningful name to each generated test is less than straightforward. Here are a few approaches that work." />
+
+    <!-- Enable latex plugin -->
+
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://achinghead.com/nosetests-generators-descriptions.html"
+                       rel="bookmark"
+                       title="Permalink to Nosetests, Generators and Descriptions">
+                        Nosetests, Generators and Descriptions
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2009-06-12T00:00:00-04:00"> June 12, 2009</time>
+    </span>
+
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://achinghead.com/tag/python.html">python</a>
+        /
+	<a href="http://achinghead.com/tag/python-nose.html">Python Nose</a>
+        /
+	<a href="http://achinghead.com/tag/testing.html">testing</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I&rsquo;ve recently been playing around with the <a href="http://somethingaboutorange.com/mrl/projects/nose/">nose</a> testing framework for Python. It&rsquo;s pretty slick! With the various hooks for plugins, one can make it work pretty much however one wants. And what I especially like is support for generators.</p>
+<p>That is, given a iterable of some kind, a test function can yield a series of tests. In my case, I actually am walking a directory structure and returning a separate test for each data file. Via a plugin, I&rsquo;m even able to customize the output of these specific tests to alter the failure reports by removing unhelpful information and/or otherwise making them more useful. However, even with all this power, giving a meaningful name to each generated test is less than straightforward. There&rsquo;s even a <a href="http://code.google.com/p/python-nose/issues/detail?id=244">bug report</a> regarding the issue.</p>
+<p>To illustrate, let&rsquo;s look at a simple nose test function:</p>
+<div class="highlight"><pre>def test_foo():
+    &quot;&quot;&quot; Test Foo &quot;&quot;&quot;
+    assert False, &#39;Foo failed&#39;
+</pre></div>
+
+
+<p>Run that test and you&rsquo;ll get:</p>
+<div class="highlight"><pre>F
 ======================================================================
 FAIL: Test Foo
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py", line 183, in runTest
+  File &quot;/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py&quot;, line 183, in runTest
     self.test(*self.arg)
-  File "/home/waylan/tmp/nose/test_foo.py", line 3, in test_foo
-    assert False, "Foo failed"
+  File &quot;/home/waylan/tmp/nose/test_foo.py&quot;, line 3, in test_foo
+    assert False, &quot;Foo failed&quot;
 AssertionError: Foo failed
 
 ----------------------------------------------------------------------
 Ran 1 test in 0.014s
 
 FAILED (failures=1)
-</code></pre>
+</pre></div>
+
+
 <p>In this case, as with Unittest, the description was pulled from the doc string. Alternatively, we could set a description attribute on the test:</p>
-<pre><code>test_foo.description = 'Test Foo'
-</code></pre>
-<p>So far so good. But now let's move on to generators. A basic generator would look something like this:</p>
-<pre><code>def run_bar(n):
-    assert False, 'Test %d failed' % n
+<div class="highlight"><pre>test_foo.description = &#39;Test Foo&#39;
+</pre></div>
+
+
+<p>So far so good. But now let&rsquo;s move on to generators. A basic generator would look something like this:</p>
+<div class="highlight"><pre>def run_bar(n):
+    assert False, &#39;Test %d failed&#39; % n
 
 def test_bar():
     for n in range(2):
         yield run_bar, n
-</code></pre>
+</pre></div>
+
+
 <p>The output from running this test:</p>
-<pre><code>FF
+<div class="highlight"><pre>FF
 ======================================================================
 FAIL: test_foo.test_bar(0,)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py", line 183, in runTest
+  File &quot;/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py&quot;, line 183, in runTest
     self.test(*self.arg)
-  File "/home/waylan/tmp/nose/test_foo.py", line 8, in run_bar
-    assert False, 'Test %d failed' % n
+  File &quot;/home/waylan/tmp/nose/test_foo.py&quot;, line 8, in run_bar
+    assert False, &#39;Test %d failed&#39; % n
 AssertionError: Test 0 failed
 
 ======================================================================
 FAIL: test_foo.test_bar(1,)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py", line 183, in runTest
+  File &quot;/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py&quot;, line 183, in runTest
     self.test(*self.arg)
-  File "/home/waylan/tmp/nose/test_foo.py", line 8, in run_bar
-    assert False, 'Test %d failed' % n
+  File &quot;/home/waylan/tmp/nose/test_foo.py&quot;, line 8, in run_bar
+    assert False, &#39;Test %d failed&#39; % n
 AssertionError: Test 1 failed
 
 ----------------------------------------------------------------------
 Ran 2 tests in 0.014s
 
 FAILED (failures=2)
-</code></pre>
-<p>Now, in this simple case, test names like <code>test_foo.test_bar(1,)</code> are not that bad. But start passing more complex arguments to your tests and things get ugly real fast. In my case, I'm passing a long string containing a file's absolute path as well as a ConfigParser instance. Ugh. </p>
-<p>Oh, and if your wondering why I didn't just use doc strings; that would simply give every test the same description, which isn't very helpful. The first (and seemingly obvious solution) would be to use the description attribute. Something like:</p>
-<pre><code>def test_bar():
+</pre></div>
+
+
+<p>Now, in this simple case, test names like <code>test_foo.test_bar(1,)</code> are not that bad. But start passing more complex arguments to your tests and things get ugly real fast. In my case, I&rsquo;m passing a long string containing a file&rsquo;s absolute path as well as a ConfigParser instance. Ugh. </p>
+<p>Oh, and if your wondering why I didn&rsquo;t just use doc strings; that would simply give every test the same description, which isn&rsquo;t very helpful. The first (and seemingly obvious solution) would be to use the description attribute. Something like:</p>
+<div class="highlight"><pre>def test_bar():
     for n in range(2):
-        run_bar.description = 'Test bar with %d' % n
+        run_bar.description = &#39;Test bar with %d&#39; % n
         yield run_bar, n
-</code></pre>
+</pre></div>
+
+
 <p>But, alas, every test now takes on the name of the very last test run! What!?! With some thought, I realized that every test was using the same instance of the test function. Therefore, by the time the report was generated, all the tests had already run, and the description attribute was always going to be for the last run test.</p>
 <p>Ah, but, if each test uses a different instance of the test, then perhaps the description of each test could be unique. So, I made the test function a callable class and set the description on each instance:</p>
-<pre><code>class RunBaz:
-    def __init__(self, n):
-        self.description = 'Test baz with %d' % n
-    def __call__(self, n):
-        assert False, '%d failed' % n
+<div class="highlight"><pre><span class="k">class</span> <span class="n">RunBaz:</span>
+    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">n</span>):
+        <span class="k">self</span>.<span class="n">description</span> = <span class="s">&#39;Test baz with %d&#39;</span> % <span class="n">n</span>
+    <span class="n">def</span> <span class="n">__call__</span>(<span class="k">self</span>, <span class="n">n</span>):
+        <span class="n">assert</span> <span class="nb">False</span>, <span class="s">&#39;%d failed&#39;</span> % <span class="n">n</span>
 
-def test_baz():
-    for n in range(2):
-        yield RunBaz(n), n
-</code></pre>
+<span class="n">def</span> <span class="n">test_baz</span>():
+    <span class="k">for</span> <span class="n">n</span> <span class="n">in</span> <span class="n">range</span>(<span class="mi">2</span>):
+        <span class="n">yield</span> <span class="n">RunBaz</span>(<span class="n">n</span>), <span class="n">n</span>
+</pre></div>
+
+
 <p>Sure enough, it works!:</p>
-<pre><code>FF
+<div class="highlight"><pre>FF
 ======================================================================
 FAIL: Test baz with 0
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py", line 183, in runTest
+  File &quot;/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py&quot;, line 183, in runTest
     self.test(*self.arg)
-  File "/home/waylan/tmp/nose/test_foo.py", line 18, in __call__
-    assert False, '%d failed' % n
+  File &quot;/home/waylan/tmp/nose/test_foo.py&quot;, line 18, in __call__
+    assert False, &#39;%d failed&#39; % n
 AssertionError: 0 failed
 
 ======================================================================
 FAIL: Test baz with 1
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py", line 183, in runTest
+  File &quot;/usr/lib/python2.5/site-packages/nose-0.11.0-py2.5.egg/nose/case.py&quot;, line 183, in runTest
     self.test(*self.arg)
-  File "/home/waylan/tmp/nose/test_foo.py", line 18, in __call__
-    assert False, '%d failed' % n
+  File &quot;/home/waylan/tmp/nose/test_foo.py&quot;, line 18, in __call__
+    assert False, &#39;%d failed&#39; % n
 AssertionError: 1 failed
 
 ----------------------------------------------------------------------
 Ran 2 tests in 0.018s
 
 FAILED (failures=2)
-</code></pre>
-<p>Of course, the need to pass the arguments into the test twice (<code>yield RunBaz(n), n</code>) is not very DRY. This would certainly work if the description needs to be built with more than just the arguments passed in for running the test. However, if we only need to use the arguments, we can make it a little simpler:</p>
-<pre><code>class RunBaz:
-    def __call__(self, n):
-        self.description = 'Test baz with %d' % n
-        assert False, '%d failed' % n
+</pre></div>
 
-def test_baz():
-    for n in range(2):
-        yield RunBaz(), n
-</code></pre>
+
+<p>Of course, the need to pass the arguments into the test twice (<code>yield RunBaz(n), n</code>) is not very DRY. This would certainly work if the description needs to be built with more than just the arguments passed in for running the test. However, if we only need to use the arguments, we can make it a little simpler:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="n">RunBaz:</span>
+    <span class="n">def</span> <span class="n">__call__</span>(<span class="k">self</span>, <span class="n">n</span>):
+        <span class="k">self</span>.<span class="n">description</span> = <span class="s">&#39;Test baz with %d&#39;</span> % <span class="n">n</span>
+        <span class="n">assert</span> <span class="nb">False</span>, <span class="s">&#39;%d failed&#39;</span> % <span class="n">n</span>
+
+<span class="n">def</span> <span class="n">test_baz</span>():
+    <span class="k">for</span> <span class="n">n</span> <span class="n">in</span> <span class="n">range</span>(<span class="mi">2</span>):
+        <span class="n">yield</span> <span class="n">RunBaz</span>(), <span class="n">n</span>
+</pre></div>
+
+
 <p>Just set <code>self.description</code> right in the <code>__call__</code> method. <del>The output is exactly the same as before</del> <ins>Upon further testing, it appears that this method does not work. Every test gets the name of the last test run for the same reason explained earlier</ins>.</p>
-<p>But, now I see someone has recently described a <a href="http://code.google.com/p/python-nose/issues/detail?id=244#c1">workaround</a> in the bug report that uses functools' <a href="http://docs.python.org/library/functools.html#functools.partial">partial</a> method, which essentially does the same thing. </p>
+<p>But, now I see someone has recently described a <a href="http://code.google.com/p/python-nose/issues/detail?id=244#c1">workaround</a> in the bug report that uses functools&rsquo; <a href="http://docs.python.org/library/functools.html#functools.partial">partial</a> method, which essentially does the same thing. </p>
 <p>Sigh. </p>
 <p>However, it appears that functools was only added to the standard library in Python 2.5. As I need to support earlier versions of Python, I guess my work was not all in vain. The important thing here is that generated tests in nose can have unique descriptions using a variety of methods. Pick whichever method meets your needs.</p>
 <p>Now go write some generated tests with helpful descriptions.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
-  </article>
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>

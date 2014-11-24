@@ -1,94 +1,310 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-  <meta charset="utf-8" /> 
-  <title>achinghead.com &ndash; Installing multiple versions of Python on Ubuntu from Source</title> 
-  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--> 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script src="/media/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
-  <link rel="stylesheet" href="/media/style.css" /> 
-  <link rel="stylesheet" href="/media/highlight.css">
-  <link rel="alternate" type="application/atom+xml" title="achinghead.com feed" href="/atom.xml" /> 
-  <link rel="shortcut icon" href="/favicon.ico" /> 
-</head> 
- 
-<body> 
- 
-  <header id='siteheader'> 
- 
-    <hgroup> 
-      <h1>achinghead.com</h1> 
-      <h2>about to explode with half-baked ideas</h2> 
-    </hgroup> 
- 
-    <nav> 
-      <ul> 
-        <li><a href="index.html">home</a></li> 
-        <li><a href="archive.html">archive</a></li> 
-        <li><a href="projects.html">projects</a></li> 
-        <li><a href="about.html">about</a></li> 
-      </ul> 
-    </nav> 
- 
-  </header> 
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Installing multiple versions of Python on Ubuntu from Source - achinghead.com</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-  <article> 
-    <header> 
-      <hgroup>
-        <h1> 
-          <a href="installing-multiple-versions-python.html" rel="bookmark" title="link to this post">Installing multiple versions of Python on Ubuntu from Source</a> 
-        </h1> 
-        <h2>by Waylan Limberg <time datetime="2008-12-06" pubdate>December 06, 2008</time></h2>
-      <hgroup>
-    </header> 
- 
-<p>In my efforts to fully test <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>, I need to have all versions of <a href="http://python.org">Python</a> that are supported by Python-Markdown. This is how I did it -- mostly for my own recollection in the event that I need to do it again. Perhaps others will find it useful as well.</p>
-<p>I had previously set up a virtual machine running <a href="http://www.ubuntu.com/products/WhatIsUbuntu/serveredition">Ubuntu Server</a> on <a href="http://www.virtualbox.org/">VirtualBox</a>. By default, I had Python2.5 installed and working fine. Now, I realize that I could have simply done <code>apt-get python2.4</code> and been done, but I wanted a few more versions. Particularly, Python 2.6 and Python 3.0, which are not yet available through Ubuntu/Debian's standard package manager. There are ways to make it work, but I decided a simple install from source into <code>/opt</code> was more strait forward. As I understand it, <code>/opt</code> is where one would install <em>optional</em> packages. Additionally, by installing from source with the changed location, each python version would be completely contained within a directory within <code>/opt</code>. If I ever want to remove a version, all I need to do is delete that directory and any associated links.</p>
+
+<link rel="canonical" href="http://achinghead.com/installing-multiple-versions-python.html">
+
+        <meta name="author" content="Waylan Limberg" />
+        <meta name="keywords" content="linux,markdown,python,Ubuntu,VirtualBox" />
+        <meta name="description" content="Here’s how I got Python 2.3, 2.4, 2.5, 2.6 and 3.0 all installed and working on an Ubuntu VirtualBox." />
+
+    <!-- Enable latex plugin -->
+
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://achinghead.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://achinghead.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://achinghead.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://achinghead.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://achinghead.com/atom.xml" type="application/atom+xml" rel="alternate"
+              title="achinghead.com ATOM Feed"/>
+
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://achinghead.com/" class="navbar-brand">
+achinghead.com            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://achinghead.com/pages/about.html">
+                             About
+                          </a></li>
+                         <li><a href="http://achinghead.com/pages/projects.html">
+                             Projects
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://achinghead.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://achinghead.com/installing-multiple-versions-python.html"
+                       rel="bookmark"
+                       title="Permalink to Installing multiple versions of Python on Ubuntu from Source">
+                        Installing multiple versions of Python on Ubuntu from Source
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2008-12-06T00:00:00-05:00"> December 06, 2008</time>
+    </span>
+
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://achinghead.com/tag/linux.html">linux</a>
+        /
+	<a href="http://achinghead.com/tag/markdown.html">markdown</a>
+        /
+	<a href="http://achinghead.com/tag/python.html">python</a>
+        /
+	<a href="http://achinghead.com/tag/ubuntu.html">Ubuntu</a>
+        /
+	<a href="http://achinghead.com/tag/virtualbox.html">VirtualBox</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>In my efforts to fully test <a href="http://www.freewisdom.org/projects/python-markdown/">Python-Markdown</a>, I need to have all versions of <a href="http://python.org">Python</a> that are supported by Python-Markdown. This is how I did it &ndash; mostly for my own recollection in the event that I need to do it again. Perhaps others will find it useful as well.</p>
+<p>I had previously set up a virtual machine running <a href="http://www.ubuntu.com/products/WhatIsUbuntu/serveredition">Ubuntu Server</a> on <a href="http://www.virtualbox.org/">VirtualBox</a>. By default, I had Python2.5 installed and working fine. Now, I realize that I could have simply done <code>apt-get python2.4</code> and been done, but I wanted a few more versions. Particularly, Python 2.6 and Python 3.0, which are not yet available through Ubuntu/Debian&rsquo;s standard package manager. There are ways to make it work, but I decided a simple install from source into <code>/opt</code> was more strait forward. As I understand it, <code>/opt</code> is where one would install <em>optional</em> packages. Additionally, by installing from source with the changed location, each python version would be completely contained within a directory within <code>/opt</code>. If I ever want to remove a version, all I need to do is delete that directory and any associated links.</p>
 <p>The first step is to ensure that all dependencies are installed. Run the following once:</p>
-<pre><code class="language-bash">sudo apt-get build-dep python2.5
-</code></pre>
+<div class="highlight"><pre>sudo apt-get build-dep python2.5
+</pre></div>
+
+
 <p>That will install a bunch of dev packages. Which packages get installed will likely depend of each specific system.</p>
-<p>As the remaining commands will need to be repeated for each version of python, I will list them once with X's in place of the version numbers. Be sure to replace the X's with the appropriate version numbers. The various versions and download links can be found on the Python <a href="http://python.org/download/">download</a> page.</p>
-<pre><code class="language-bash">wget http://python.org/ftp/python/X.X.X/Python-X.X.X.tgz
+<p>As the remaining commands will need to be repeated for each version of python, I will list them once with X&rsquo;s in place of the version numbers. Be sure to replace the X&rsquo;s with the appropriate version numbers. The various versions and download links can be found on the Python <a href="http://python.org/download/">download</a> page.</p>
+<div class="highlight"><pre>wget http://python.org/ftp/python/X.X.X/Python-X.X.X.tgz
 tar xvfz Python-X.X.X.tgz
-cd Python-X.X.X
-./configure --prefix=/opt/pythonX.X
+<span class="nb">cd </span>Python-X.X.X
+./configure --prefix<span class="o">=</span>/opt/pythonX.X
 make
 sudo make install
-</code></pre>
-<p>In a couple versions I got some warnings after running <code>make</code> about missing dependencies for things I don't need or use, so I ignored them and everything worked fine. Of course, these need to be on my path to be useful so I created some links:</p>
-<pre><code class="language-bash">sudo ln -s /opt/pythonX.X/bin/pythonX.X /usr/bin/python-X.X
-</code></pre>
-<p>For Python 3.0 I also created a link for <code>2to3</code> so I could convert code to fit 3.0's changes:</p>
-<pre><code class="language-bash">sudo ln -s /opt/python3.0/bin/2to3 /usr/bin/2to3
-</code></pre>
+</pre></div>
+
+
+<p>In a couple versions I got some warnings after running <code>make</code> about missing dependencies for things I don&rsquo;t need or use, so I ignored them and everything worked fine. Of course, these need to be on my path to be useful so I created some links:</p>
+<div class="highlight"><pre>sudo ln -s /opt/pythonX.X/bin/pythonX.X /usr/bin/python-X.X
+</pre></div>
+
+
+<p>For Python 3.0 I also created a link for <code>2to3</code> so I could convert code to fit 3.0&rsquo;s changes:</p>
+<div class="highlight"><pre>sudo ln -s /opt/python3.0/bin/2to3 /usr/bin/2to3
+</pre></div>
+
+
 <p>The only thing left to do is install some third-party python packages into each. Despite my dislike for some aspects of <a href="http://pypi.python.org/pypi/setuptools/">SetupTools</a>, it is an <em>easy</em> way to install things quickly, so I installed it on each version. First I downloaded the latest source and unzipped it:</p>
-<pre><code class="language-bash">wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.X.tar.gz
+<div class="highlight"><pre>wget http://pypi.python.org/packages/source/s/setuptools/setuptools-0.X.tar.gz
 tar xvfz setuptools-0X.tar.gz
-cd setuptools-0.X
-</code></pre>
+<span class="nb">cd </span>setuptools-0.X
+</pre></div>
+
+
 <p>While I only needed to do the above once, I needed to install it in each version:</p>
-<pre><code class="language-bash">sudo python2.X setup.py install
-</code></pre>
-<p>Note that, (to my knowledge) SetupTools is not yet available for Python 3.0, so I didn't even try. But is worked fine for 2.3, 2.4 and 2.6. Finally, I created links to the various versions of <code>easy_install</code>.</p>
-<pre><code class="language-bash">sudo ln -s /opt/python2.X/bin/easy_install-2.X /usr/bin/easy_install2.X
-</code></pre>
-<p>From now on, it's easy to install a package for any version (except 3.0 which doesn't have any third-party packages to speak of yet) of Python by simply running the appropriate <code>easy_install</code>. For example, the upcoming version 2.0 of Python-Markdown requires <a href="http://pypi.python.org/pypi/cElementTree">ElementTree</a>. While ElementTree is part of the standard library in 2.5 and 2.6, it needs to be installed manually in 2.3 and 2.4. So the following will do the trick:</p>
-<pre><code class="language-bash">sudo easy_install2.4 celementree
+<div class="highlight"><pre>sudo python2.X setup.py install
+</pre></div>
+
+
+<p>Note that, (to my knowledge) SetupTools is not yet available for Python 3.0, so I didn&rsquo;t even try. But is worked fine for 2.3, 2.4 and 2.6. Finally, I created links to the various versions of <code>easy_install</code>.</p>
+<div class="highlight"><pre>sudo ln -s /opt/python2.X/bin/easy_install-2.X /usr/bin/easy_install2.X
+</pre></div>
+
+
+<p>From now on, it&rsquo;s easy to install a package for any version (except 3.0 which doesn&rsquo;t have any third-party packages to speak of yet) of Python by simply running the appropriate <code>easy_install</code>. For example, the upcoming version 2.0 of Python-Markdown requires <a href="http://pypi.python.org/pypi/cElementTree">ElementTree</a>. While ElementTree is part of the standard library in 2.5 and 2.6, it needs to be installed manually in 2.3 and 2.4. So the following will do the trick:</p>
+<div class="highlight"><pre>sudo easy_install2.4 celementree
 sudo easy_install2.3 celementree
-</code></pre>
+</pre></div>
+
+
 <p>After doing the same for a few other packages (such as <a href="http://pypi.python.org/pypi/Pygments/1.0">Pygments</a> for the <a href="http://www.freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a> extension), I had a everything I needed. And to think it was rather painless.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
 
-  </article>
+        </div>
+        <div class="col-sm-3 well well-sm" id="sidebar">
 
-  <footer> 
- 
-    <p>&copy; 2010 <a href="about.html">Waylan Limberg</a></p> 
- 
-  </footer> 
- 
-</body> 
-</html> 
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+
+
+
+                <li class="list-group-item"><a href="http://achinghead.com/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                    <ul class="list-group " id="tags">
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/markdown.html">
+                                markdown
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-1">
+                            <a href="http://achinghead.com/tag/python.html">
+                                python
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/linux.html">
+                                linux
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/ubuntu.html">
+                                Ubuntu
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/django.html">
+                                django
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-2">
+                            <a href="http://achinghead.com/tag/virtualbox.html">
+                                VirtualBox
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/syntax-highlighting.html">
+                                syntax highlighting
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/prostetics.html">
+                                prostetics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/clipless-glove.html">
+                                Clipless Glove
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/html.html">
+                                html
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-3">
+                            <a href="http://achinghead.com/tag/bicycles.html">
+                                bicycles
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hardware.html">
+                                hardware
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/git.html">
+                                git
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/automobile.html">
+                                automobile
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/testing.html">
+                                testing
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/electronics.html">
+                                electronics
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/python-nose.html">
+                                Python Nose
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/hacks.html">
+                                hacks
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/anti-spam.html">
+                                anti-spam
+                            </a>
+                        </li>
+                        <li class="list-group-item tag-4">
+                            <a href="http://achinghead.com/tag/css.html">
+                                css
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+
+
+
+        </ul>
+    </section>
+
+</aside>        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 Waylan Limberg
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://achinghead.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://achinghead.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://achinghead.com/theme/js/respond.min.js"></script>
+
+</body>
+</html>
