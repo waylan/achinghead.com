@@ -1,5 +1,0 @@
----
-layout: default
----
-{% set post = site.posts[-1] %}
-{{ post.content }}

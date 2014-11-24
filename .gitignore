@@ -1,2 +1,8 @@
 *.swp
 .venv
+*.komodoproject
+.komodotools
+*.pyc
+*.pid
+output
+cache
