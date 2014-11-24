@@ -25,7 +25,11 @@ DEFAULT_CATEGORY = 'Misc'
 DISPLAY_CATEGORIES_ON_MENU = False
 FILENAME_METADATA = r'(?P<date>\d{4}-\d{2}-\d{2})-(?P<slug>.*)'
 SLUGIFY_SOURCE = 'basename'
-STATIC_PATHS = ['content/static']
+STATIC_PATHS = ['content/static/CNAME', 'content/static/favicon.ico']
+EXTRA_PATH_METADATA = {
+    'content/static/CNAME': {'path': 'CNAME'},
+    'content/static/favicon.ico': {'path': 'favicon.ico'}
+}
 DEFAULT_DATE_FORMAT = '%B %d, %Y'
 
 
